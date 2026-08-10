@@ -41,16 +41,18 @@ button:disabled { opacity: 0.55; cursor: wait; }
 .file-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 .orientation { padding: 72px 0 64px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr); gap: 72px; border-bottom: 1px solid var(--line); }
+.orientation > *, form, form > label, fieldset { min-width: 0; }
 .orientation h1 { max-width: 680px; margin: 8px 0 0; font: 400 clamp(2.4rem, 6vw, 5rem)/0.98 Georgia, serif; letter-spacing: -0.04em; }
 .eyebrow { color: var(--clay); font-size: 0.76rem; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
 form { display: grid; gap: 18px; align-content: start; }
 form > label { display: grid; gap: 7px; font-weight: 650; }
-select, input[type="number"], input[type="text"], textarea { width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--paper); color: var(--ink); }
+select, input[type="number"], input[type="text"], textarea { min-width: 0; max-width: 100%; width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--paper); color: var(--ink); }
 fieldset { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 4px; }
 fieldset legend { font-weight: 700; padding: 0 6px; }
 fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
 .check-option { min-height: 44px; display: flex; align-items: center; gap: 9px; padding: 7px 0; font-weight: 450; }
 .check-option input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--moss); }
+.check-option span { min-width: 0; overflow-wrap: anywhere; }
 .notice { grid-column: 1 / -1; margin: 0; color: var(--moss-dark); min-height: 1.5em; }
 
 .surface-flow { position: relative; }
