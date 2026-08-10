@@ -17,6 +17,7 @@
     "@learn-anything/mastery": "workspace:*",
     "@learn-anything/path-planner": "workspace:*",
     "@learn-anything/project-store": "workspace:*",
+    "@learn-anything/researcher": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

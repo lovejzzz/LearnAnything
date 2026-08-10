@@ -2,6 +2,24 @@
 
 All notable changes to LearnAnything are documented in this file.
 
+## 0.2.0 - 2026-08-10
+
+### Added
+
+- A bounded `researcher` package that normalizes, deduplicates, and deterministically ranks AI-discovered resource candidates using separate visible signals.
+- An optional local Codex CLI workflow with native web search and structured output for researching one existing capability.
+- Versioned research-proposal and model-output schemas, pipeline receipts, explicit query disclosure, request/storage/runtime budgets, exact model and reported-usage metadata, and safe link-only rights defaults.
+- A website review surface for locally importing unreviewed proposals without mutating the published graph.
+- Researcher safety tests and cross-browser coverage for unsafe URLs, malformed signals, oversized proposals, graph switching, and the proposal/graph authority boundary.
+
+### Changed
+
+- Advanced the built-in researcher documentation from a future boundary to the first resource-discovery milestone.
+
+### Not included
+
+- Automatic graph publication, recursive crawling, hosted API credentials, AI mastery decisions, and generated course content remain out of scope.
+
 ## 0.1.0 - 2026-08-10
 
 ### Added

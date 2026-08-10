@@ -186,7 +186,9 @@ Reviewers approve individual patch operations or coherent bounded patches. They 
 
 ## First implementation boundary
 
-Do not build the automated researcher during the first vertical slice. Start with manually authored seed graphs that already obey the source contract. The first researcher milestone, after the learning loop works, should discover and rank candidate resources for one existing capability without changing the graph automatically.
+The first offline vertical slice shipped with manually authored seed graphs that obey the source contract. The first researcher milestone now discovers and ranks candidate resources for one existing capability through an optional local Codex CLI workflow. It emits a bounded `0.1.0` proposal with visible signals, warnings, rights defaults, exact runtime identity and usage when reported, and receipts. The local process is read-only, ephemeral, time-bounded, and instructed to treat retrieved pages as untrusted data. The website size-checks and validates imported proposals for the active graph but cannot apply them to the graph.
+
+The next boundary is reviewer disposition for individual candidates: accept, reject, or request verification while preserving the original proposal and receipts. Do not add automatic graph publication, recursive crawling, learner-evidence disclosure, or hosted credentials as part of that work.
 
 ## Known source considerations
 

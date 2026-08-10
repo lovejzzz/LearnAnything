@@ -13,10 +13,12 @@
     "check": "tsc -p tsconfig.json --pretty false",
     "dev": "pnpm --filter @learn-anything/web dev",
     "e2e": "playwright test",
+    "research": "node --experimental-strip-types scripts/research-capability.ts",
     "test": "node scripts/validate-foundation.mjs && vitest run",
     "validate": "pnpm check && pnpm test && pnpm build"
   },
   "devDependencies": {
+    "@learn-anything/researcher": "workspace:*",
     "@playwright/test": "^1.54.2",
     "@types/node": "^24.2.1",
     "typescript": "^5.9.2",

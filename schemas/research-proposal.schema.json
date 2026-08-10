@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnanything.dev/schemas/research-proposal.schema.json",
+  "title": "LearnAnything Resource Research Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "brief", "method", "trust", "reviewStatus", "createdAt", "receipts", "candidates", "warnings"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "brief": { "$ref": "#/$defs/brief" },
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "provider", "model", "reportedTokenUsage"],
+      "properties": {
+        "kind": { "type": "string", "const": "ai-assisted" },
+        "provider": { "type": "string", "const": "codex-cli" },
+        "model": { "type": "string", "minLength": 1 },
+        "reportedTokenUsage": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "trust": { "type": "string", "const": "ai-proposed-unreviewed" },
+    "reviewStatus": { "type": "string", "const": "pending" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "receipts": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage", "status", "recordedAt", "detail"],
+        "properties": {
+          "stage": { "type": "string", "enum": ["brief", "discovery", "normalization", "ranking", "proposal"] },
+          "status": { "type": "string", "enum": ["succeeded", "warning"] },
+          "recordedAt": { "type": "string", "format": "date-time" },
+          "detail": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "candidates": { "type": "array", "items": { "$ref": "#/$defs/candidate" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "id", "graphId", "graphVersion", "capabilityId", "capabilityTitle", "capabilitySummary", "depth", "language", "learnerContext", "jurisdiction", "freshnessRequirement", "safetyBoundary", "requestedOutput", "disclosedQuery", "budget", "createdAt"],
+      "properties": {
+        "schemaVersion": { "type": "string", "const": "0.1.0" },
+        "id": { "type": "string", "minLength": 1 },
+        "graphId": { "type": "string", "minLength": 1 },
+        "graphVersion": { "type": "string", "minLength": 1 },
+        "capabilityId": { "type": "string", "minLength": 1 },
+        "capabilityTitle": { "type": "string", "minLength": 1 },
+        "capabilitySummary": { "type": "string", "minLength": 1 },
+        "depth": { "type": "string", "enum": ["orientation", "foundation", "working", "advanced"] },
+        "language": { "type": "string", "minLength": 2 },
+        "learnerContext": { "type": "string", "minLength": 1 },
+        "jurisdiction": { "type": "string", "minLength": 1 },
+        "freshnessRequirement": { "type": "string", "minLength": 1 },
+        "safetyBoundary": { "type": "string", "minLength": 1 },
+        "requestedOutput": { "type": "string", "const": "resource-candidates" },
+        "disclosedQuery": { "type": "string", "minLength": 1 },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxCandidates", "maxWebSearches", "maxStoredBytes", "maxRuntimeSeconds"],
+          "properties": {
+            "maxCandidates": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "maxWebSearches": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "maxStoredBytes": { "type": "integer", "minimum": 1, "maximum": 64000 },
+            "maxRuntimeSeconds": { "type": "integer", "minimum": 30, "maximum": 600 }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "relevance", "pedagogicalFit", "accessibility", "freshness", "transparency", "licenseClarity", "versionMatch", "learnerUsefulness"],
+      "properties": {
+        "authority": { "$ref": "#/$defs/signal" },
+        "relevance": { "$ref": "#/$defs/signal" },
+        "pedagogicalFit": { "$ref": "#/$defs/signal" },
+        "accessibility": { "$ref": "#/$defs/signal" },
+        "freshness": { "$ref": "#/$defs/signal" },
+        "transparency": { "$ref": "#/$defs/signal" },
+        "licenseClarity": { "$ref": "#/$defs/signal" },
+        "versionMatch": { "$ref": "#/$defs/signal" },
+        "learnerUsefulness": { "$ref": "#/$defs/signal" }
+      }
+    },
+    "signal": { "type": "string", "enum": ["unknown", "weak", "moderate", "strong"] },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rank", "targetCapabilityId", "title", "url", "publisher", "sourceType", "format", "access", "description", "rationale", "signals", "contentUse", "license"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "rank": { "type": "integer", "minimum": 1 },
+        "targetCapabilityId": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "publisher": { "type": "string", "minLength": 1 },
+        "sourceType": { "type": "string", "enum": ["primary", "official", "scholarly", "open-education", "reference", "community"] },
+        "format": { "type": "string", "enum": ["article", "book", "documentation", "video", "simulation", "course", "tool", "other"] },
+        "access": { "type": "string", "enum": ["free", "freemium", "paid", "unknown"] },
+        "description": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "signals": { "$ref": "#/$defs/signals" },
+        "contentUse": { "type": "string", "const": "link-only" },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "identifier", "attributionRequired", "redistributionAllowed", "derivativesAllowed", "notes"],
+          "properties": {
+            "status": { "type": "string", "const": "unknown" },
+            "identifier": { "type": "string", "const": "" },
+            "attributionRequired": { "type": "boolean", "const": false },
+            "redistributionAllowed": { "type": "boolean", "const": false },
+            "derivativesAllowed": { "type": "boolean", "const": false },
+            "notes": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

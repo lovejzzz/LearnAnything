@@ -180,7 +180,7 @@ function transitivePrerequisites(graph, targets) {
 
 async function validateSchemas() {
   const schemaFiles = (await readdir(join(root, 'schemas'))).filter((name) => name.endsWith('.schema.json'));
-  assert(schemaFiles.length === 3, `expected 3 JSON schemas, found ${schemaFiles.length}`);
+  assert(schemaFiles.length === 4, `expected 4 JSON schemas, found ${schemaFiles.length}`);
   for (const fileName of schemaFiles) {
     const schema = await readJson(join('schemas', fileName));
     assert(schema.$schema === 'https://json-schema.org/draft/2020-12/schema', `${fileName} must use JSON Schema 2020-12`);
@@ -247,7 +247,7 @@ async function main() {
   assert(Array.isArray(path.horizon.items), 'quantum-path horizon needs budgeted action items');
   assert(path.horizon.items.reduce((sum, item) => sum + item.estimatedHours, 0) <= path.horizon.budgetHours, 'quantum-path horizon actions exceed the budget');
 
-  console.log(`Foundation valid: ${graphFiles.length} domain graphs, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.nodes.length, 0)} nodes, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.edges.length, 0)} edges, 3 schemas.`);
+  console.log(`Foundation valid: ${graphFiles.length} domain graphs, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.nodes.length, 0)} nodes, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.edges.length, 0)} edges, 4 schemas.`);
 }
 
 main().catch((error) => {

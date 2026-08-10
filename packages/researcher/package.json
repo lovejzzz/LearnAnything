@@ -1,0 +1,10 @@
+{
+  "name": "@learn-anything/researcher",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@learn-anything/contracts": "workspace:*"
+  }
+}

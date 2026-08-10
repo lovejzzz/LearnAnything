@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "candidates", "warnings"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "0.1.0" },
+    "candidates": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "publisher", "sourceType", "format", "access", "description", "rationale", "signals"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "minLength": 1 },
+          "publisher": { "type": "string", "minLength": 1 },
+          "sourceType": { "type": "string", "enum": ["primary", "official", "scholarly", "open-education", "reference", "community"] },
+          "format": { "type": "string", "enum": ["article", "book", "documentation", "video", "simulation", "course", "tool", "other"] },
+          "access": { "type": "string", "enum": ["free", "freemium", "paid", "unknown"] },
+          "description": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "signals": { "$ref": "#/$defs/signals" }
+        }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "signal": { "type": "string", "enum": ["unknown", "weak", "moderate", "strong"] },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "relevance", "pedagogicalFit", "accessibility", "freshness", "transparency", "licenseClarity", "versionMatch", "learnerUsefulness"],
+      "properties": {
+        "authority": { "$ref": "#/$defs/signal" },
+        "relevance": { "$ref": "#/$defs/signal" },
+        "pedagogicalFit": { "$ref": "#/$defs/signal" },
+        "accessibility": { "$ref": "#/$defs/signal" },
+        "freshness": { "$ref": "#/$defs/signal" },
+        "transparency": { "$ref": "#/$defs/signal" },
+        "licenseClarity": { "$ref": "#/$defs/signal" },
+        "versionMatch": { "$ref": "#/$defs/signal" },
+        "learnerUsefulness": { "$ref": "#/$defs/signal" }
+      }
+    }
+  }
+}

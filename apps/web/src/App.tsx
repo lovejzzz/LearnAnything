@@ -8,6 +8,7 @@ import { domainById, domains } from "./domain-data";
 import { IndexedDbStorage } from "./indexed-db-storage";
 import { DiagnosticForm } from "./DiagnosticForm";
 import { EvidenceForm } from "./EvidenceForm";
+import { ResearchReview } from "./ResearchReview";
 import {
   buildPlan,
   createProject,
@@ -351,6 +352,7 @@ export function App() {
             {currentPlan && <p className="plan-identity">Plan identity <code>{currentPlan.id}</code> · {countLabel(project.planHistory.length, "version")} preserved</p>}
           </section>
         </div>
+        <ResearchReview key={`${graph.id}:${graph.version}`} graph={graph} />
       </main>
       <footer><p>No account. No API key. Learner evidence stays in IndexedDB and is exportable.</p></footer>
     </>

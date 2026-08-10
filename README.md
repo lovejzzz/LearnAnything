@@ -17,7 +17,7 @@ The first offline vertical slice is runnable. It includes:
 - local IndexedDB persistence with project export and import;
 - package tests and a parameterized Playwright journey across all three domains.
 
-The automated researcher remains a documented future boundary and is not implemented in this slice.
+The first automated-researcher milestone is also available as an optional local workflow. It uses the authenticated Codex CLI to discover resource candidates for one existing capability, then emits an unreviewed JSON proposal that the website can display. It never edits the graph automatically, and the offline learning loop still requires no LLM.
 
 ## Product thesis
 
@@ -48,6 +48,19 @@ pnpm dev
 
 After the first dependency installation, the app and its compact knowledge fixtures run without network access, a backend, an account, an API key, or an LLM.
 
+## Research one capability
+
+The optional researcher requires an authenticated Codex CLI with live web search. The query shown before execution leaves the device; learner evidence and the browser project do not.
+
+```bash
+pnpm research -- \
+  --graph quantum-physics-foundations \
+  --capability q.cap.two-path-interference \
+  --output ./proposal.json
+```
+
+The command creates a new file, refuses to overwrite an existing path, runs read-only with a three-minute ceiling, and records the exact model plus CLI-reported token usage when available. In the website, use **Import proposal** under **Optional intelligence · review only** to inspect its candidates, visible ranking signals, rights boundary, warnings, and pipeline receipts. Imported proposals are size- and budget-bounded, remain pending, reset when the active graph changes, and cannot mutate the knowledge graph.
+
 ## Validate
 
 ```bash
@@ -55,7 +68,7 @@ pnpm validate
 pnpm e2e
 ```
 
-`validate` checks TypeScript, the foundation data, package behavior, and the production build. `e2e` runs the complete browser loop for all three domains plus export/import recovery.
+`validate` checks TypeScript, foundation data, package behavior—including researcher safety invariants—and the production build. `e2e` runs the complete browser loop for all three domains, export/import recovery, and the proposal-review boundary.
 
 ## Repository shape
 

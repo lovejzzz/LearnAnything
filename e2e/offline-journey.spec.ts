@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import type { KnowledgeGraph } from "@learn-anything/contracts";
+import { buildResearchProposal, createResearchBrief } from "@learn-anything/researcher";
 
 const fixtures = [
   {
@@ -97,7 +99,7 @@ test("project export, clear, and import restores browser state", async ({ page }
   page.once("dialog", (dialog) => void dialog.accept());
   await page.getByRole("button", { name: "Clear" }).click();
   await expect(page.getByRole("status")).toContainText("cleared");
-  await page.getByLabel("Import").setInputFiles(downloadPath!);
+  await page.getByLabel("Import", { exact: true }).setInputFiles(downloadPath!);
   await expect(page.getByRole("status")).toContainText("restored");
   await expect(page.getByText("Plan identity", { exact: false })).toBeVisible();
 });
@@ -116,7 +118,7 @@ test("an unsupported-domain import is rejected without replacing the saved proje
 
   const exported = JSON.parse(await readFile(downloadPath!, "utf8"));
   exported.activeGraphId = "unsupported-domain";
-  await page.getByLabel("Import").setInputFiles({
+  await page.getByLabel("Import", { exact: true }).setInputFiles({
     name: "unsupported-domain.json",
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify(exported)),
@@ -127,6 +129,74 @@ test("an unsupported-domain import is rejected without replacing the saved proje
   await page.reload();
   await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
   await expect(page.getByRole("status")).toContainText("Restored 1 saved plan.");
+});
+
+test("an AI research proposal stays visibly unreviewed and does not mutate the map", async ({ page }) => {
+  const graph = JSON.parse(await readFile(new URL("../examples/quantum-physics.graph.json", import.meta.url), "utf8")) as KnowledgeGraph;
+  const brief = createResearchBrief(graph, "q.cap.two-path-interference", "2026-08-10T07:00:00.000Z");
+  const signals = {
+    authority: "strong",
+    relevance: "strong",
+    pedagogicalFit: "strong",
+    accessibility: "strong",
+    freshness: "moderate",
+    transparency: "strong",
+    licenseClarity: "unknown",
+    versionMatch: "moderate",
+    learnerUsefulness: "unknown",
+  } as const;
+  const proposal = buildResearchProposal(brief, {
+    schemaVersion: "0.1.0",
+    warnings: [],
+    candidates: [{
+      title: "Candidate two-path simulation",
+      url: "https://example.org/two-path",
+      publisher: "Example Lab",
+      sourceType: "official",
+      format: "simulation",
+      access: "free",
+      description: "A focused candidate simulation.",
+      rationale: "It directly exercises the selected capability.",
+      signals,
+    }],
+  }, { provider: "codex-cli", model: "test-model" }, "2026-08-10T07:01:00.000Z");
+
+  await page.goto("/");
+  await expect(page.getByText("Target · unseen")).toBeVisible();
+  await page.getByTestId("research-proposal-input").setInputFiles({
+    name: "research-proposal.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(proposal)),
+  });
+
+  await expect(page.getByTestId("research-status")).toContainText("1 unreviewed candidate");
+  await expect(page.getByTestId("research-proposal")).toContainText("ai-proposed-unreviewed");
+  await expect(page.getByTestId("research-proposal")).toContainText("unknown · link-only");
+  await expect(page.getByText("Target · unseen")).toBeVisible();
+  await expect(page.getByText("No graph changes were applied.")).toBeVisible();
+
+  await page.getByTestId("domain-select").selectOption("philosophy-argument-paths");
+  await expect(page.getByTestId("research-proposal")).toHaveCount(0);
+  await expect(page.getByTestId("research-status")).toContainText("Run the local researcher");
+
+  await page.getByTestId("research-proposal-input").setInputFiles({
+    name: "wrong-graph-proposal.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(proposal)),
+  });
+  await expect(page.getByTestId("research-status")).toContainText("not the active philosophy-argument-paths");
+  await expect(page.getByTestId("research-proposal")).toHaveCount(0);
+});
+
+test("oversized research proposals are rejected before parsing", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("research-proposal-input").setInputFiles({
+    name: "oversized-proposal.json",
+    mimeType: "application/json",
+    buffer: Buffer.alloc(64_001, 32),
+  });
+  await expect(page.getByTestId("research-status")).toContainText("too large to review safely");
+  await expect(page.getByTestId("research-proposal")).toHaveCount(0);
 });
 
 test("semantic surfaces, named status, branches, keyboard use, and reduced motion remain accessible", async ({ page }) => {

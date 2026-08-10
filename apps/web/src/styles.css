@@ -113,6 +113,29 @@ code { color: var(--ink); font-size: 0.78rem; background: #e7e1d5; padding: 3px 
 footer { padding: 36px 0 60px; color: var(--muted); font-size: 0.9rem; }
 .loading { min-height: 100vh; display: grid; place-items: center; }
 
+.research-review { margin: 64px 0; padding: 36px 40px; border: 1px solid var(--line); background: rgb(251 248 241 / 70%); }
+.research-review-heading { display: flex; align-items: center; gap: 28px; }
+.research-review-heading > div { flex: 1; }
+.research-review h2 { margin: 5px 0 0; font: 400 2rem/1.15 Georgia, serif; }
+.research-notice { color: var(--moss-dark); }
+.proposal-meta { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.candidate-list { list-style: none; margin: 28px 0 0; padding: 0; }
+.candidate-list > li { padding: 28px 0; border-top: 1px solid var(--line); }
+.candidate-heading { display: flex; gap: 16px; align-items: flex-start; }
+.candidate-heading h3 { margin: 0; font: 400 1.35rem/1.25 Georgia, serif; }
+.candidate-heading p { margin: 6px 0 0; color: var(--muted); }
+.candidate-rank { display: grid; place-items: center; width: 42px; min-height: 42px; flex: 0 0 auto; border-radius: 50%; background: var(--moss); color: white; font: 700 0.78rem/1 monospace; }
+.signal-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 18px; }
+.signal-list > div { display: flex; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.signal-list dt { color: var(--muted); }
+.signal-list dd { margin: 0; font-weight: 700; text-transform: capitalize; }
+.signal-list dd[data-signal="strong"] { color: var(--moss-dark); }
+.signal-list dd[data-signal="weak"], .signal-list dd[data-signal="unknown"] { color: #813c2d; }
+.rights-warning { color: #6c382b; }
+.receipt-list { margin-top: 20px; }
+.receipt-list summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; }
+.receipt-list li { margin: 8px 0; }
+
 @media (max-width: 760px) {
   .site-header { align-items: flex-start; padding: 20px 0; flex-wrap: wrap; }
   .site-header > p { order: 3; flex-basis: 100%; margin: 0; }
@@ -125,6 +148,9 @@ footer { padding: 36px 0 60px; color: var(--muted); font-size: 0.9rem; }
   .surface-heading h2 { font-size: 2.2rem; }
   .map-list { grid-template-columns: 1fr; }
   .stage-list > li { grid-template-columns: 1fr; gap: 8px; }
+  .research-review { padding: 28px 22px; }
+  .research-review-heading { align-items: flex-start; flex-direction: column; }
+  .signal-list { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
