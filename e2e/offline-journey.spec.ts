@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 const fixtures = [
   {
@@ -62,7 +63,7 @@ for (const fixture of fixtures) {
       await page.getByTestId(`attestation-${capabilityId}`).check();
       await expect(masteryButton).toBeEnabled();
       await masteryButton.click();
-      await expect(page.getByText(`${index + 3} version(s) preserved`)).toBeVisible();
+      await expect(page.getByText(`${index + 3} versions preserved`)).toBeVisible();
     }
 
     await expect(page.getByTestId("journey-complete")).toBeVisible();
@@ -76,6 +77,11 @@ test("project export, clear, and import restores browser state", async ({ page }
   await page.getByLabel("Hours available this week").fill("10");
   await page.getByTestId("build-path").click();
   await expect(page.getByText("Plan identity", { exact: false })).toBeVisible();
+  await expect(page.getByRole("status")).toContainText("Path planned");
+
+  await page.reload();
+  await expect(page.getByRole("status")).toContainText("Restored 1 saved plan.");
+  await expect(page.getByText("1 version preserved")).toBeVisible();
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export" }).click();
@@ -94,6 +100,33 @@ test("project export, clear, and import restores browser state", async ({ page }
   await page.getByLabel("Import").setInputFiles(downloadPath!);
   await expect(page.getByRole("status")).toContainText("restored");
   await expect(page.getByText("Plan identity", { exact: false })).toBeVisible();
+});
+
+test("an unsupported-domain import is rejected without replacing the saved project", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("domain-select").selectOption("philosophy-argument-paths");
+  await page.getByTestId("build-path").click();
+  await expect(page.getByRole("status")).toContainText("Path planned");
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export" }).click();
+  const download = await downloadPromise;
+  const downloadPath = await download.path();
+  expect(downloadPath).not.toBeNull();
+
+  const exported = JSON.parse(await readFile(downloadPath!, "utf8"));
+  exported.activeGraphId = "unsupported-domain";
+  await page.getByLabel("Import").setInputFiles({
+    name: "unsupported-domain.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(exported)),
+  });
+
+  await expect(page.getByRole("status")).toContainText("does not include the imported domain");
+  await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
+  await page.reload();
+  await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
+  await expect(page.getByRole("status")).toContainText("Restored 1 saved plan.");
 });
 
 test("semantic surfaces, named status, branches, keyboard use, and reduced motion remain accessible", async ({ page }) => {

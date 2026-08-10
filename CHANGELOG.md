@@ -15,6 +15,7 @@ All notable changes to LearnAnything are documented in this file.
 - Production security headers, metadata, health endpoint, and GitHub Actions validation.
 - Responsive touch-target, skip-link, destructive-action confirmation, and contrast regression coverage.
 - Branded browser icon metadata using the production social image.
+- Reload-persistence and safe unsupported-domain import regression coverage across Chromium, Firefox, and WebKit.
 - MIT software and CC BY 4.0 knowledge/documentation licensing.
 
 ### Changed
@@ -24,6 +25,7 @@ All notable changes to LearnAnything are documented in this file.
 - Updated the architecture, learning model, build handoff, and setup documentation for the offline vertical slice.
 - Prepared the Vite app for Cloudflare Worker-compatible static delivery, routing the application shell through the Worker so production security headers apply to every navigation without adding an application backend.
 - Added concise path and weekly workload summaries, safer project clearing, and improved cross-browser mobile and keyboard accessibility.
+- Rejected unsupported-domain imports before they can replace the saved browser project, clarified count labels, and updated CI actions to supported runtimes.
 
 ### Not included
 

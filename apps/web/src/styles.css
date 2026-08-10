@@ -33,7 +33,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 button, .file-button { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 9px 14px; border-radius: 999px; cursor: pointer; }
 button:hover, .file-button:hover { background: #e8e2d6; }
-button:disabled { opacity: 0.55; cursor: wait; }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
 .primary { background: var(--moss); border-color: var(--moss); color: white; }
 .primary:hover { background: var(--moss-dark); }
 .quiet { border-color: var(--line); }

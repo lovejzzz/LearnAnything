@@ -3,7 +3,7 @@ import type { GraphNode, HorizonAction, LearningGoal, LearningProject, PathStep 
 import { createGraphIndex, directPrerequisites } from "@learn-anything/knowledge-graph";
 import { deriveCapabilityStatus } from "@learn-anything/learner-model";
 import type { DiagnosticAnswers } from "@learn-anything/mastery";
-import { appendActivity, ProjectStore } from "@learn-anything/project-store";
+import { appendActivity, parseProjectExport, ProjectStore } from "@learn-anything/project-store";
 import { domainById, domains } from "./domain-data";
 import { IndexedDbStorage } from "./indexed-db-storage";
 import { DiagnosticForm } from "./DiagnosticForm";
@@ -24,6 +24,10 @@ function timestamp(): string {
 
 function capabilityNodes(nodes: GraphNode[]): GraphNode[] {
   return nodes.filter((node) => node.kind === "capability");
+}
+
+function countLabel(count: number, singular: string, plural = `${singular}s`): string {
+  return `${count} ${count === 1 ? singular : plural}`;
 }
 
 export function App() {
@@ -96,7 +100,7 @@ export function App() {
     };
     try {
       const next = buildPlan(project, graph, goal, priorIds, timestamp());
-      await persist(next, `Path planned. ${next.planHistory.at(-1)?.horizon.items.length ?? 0} action(s) fit this week.`);
+      await persist(next, `Path planned. This week includes ${countLabel(next.planHistory.at(-1)?.horizon.items.length ?? 0, "action")}.`);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Could not build the path.");
     } finally {
@@ -161,14 +165,18 @@ export function App() {
     const file = event.target.files?.[0];
     if (file === undefined) return;
     try {
-      const restored = await store.import(await file.text());
+      const restored = parseProjectExport(await file.text());
       const restoredDomain = domainById(restored.activeGraphId);
+      if (restoredDomain.graph.id !== restored.activeGraphId) {
+        throw new Error(`This build does not include the imported domain: ${restored.activeGraphId}`);
+      }
+      await store.save(restored);
       setProject(restored);
       setDomainId(restoredDomain.graph.id);
       setTargetId(restored.goals.at(-1)?.targetCapabilityIds[0] ?? restoredDomain.defaultTargetId);
       setHoursPerWeek(restored.learnerState.preferences.hoursPerWeek);
       setPriorIds([]);
-      setNotice(`Project restored with ${restored.learnerState.evidence.length} evidence record(s).`);
+      setNotice(`Project restored with ${countLabel(restored.learnerState.evidence.length, "evidence record")}.`);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Could not import this project.");
     } finally {
@@ -340,7 +348,7 @@ export function App() {
                 </ol>
               </>
             )}
-            {currentPlan && <p className="plan-identity">Plan identity <code>{currentPlan.id}</code> · {project.planHistory.length} version(s) preserved</p>}
+            {currentPlan && <p className="plan-identity">Plan identity <code>{currentPlan.id}</code> · {countLabel(project.planHistory.length, "version")} preserved</p>}
           </section>
         </div>
       </main>
@@ -354,7 +362,7 @@ function SurfaceHeading({ number, title, question }: { number: string; title: st
 }
 
 function JourneyStep({ step, node }: { step: PathStep; node: GraphNode | undefined }) {
-  return <article><h3>{node?.title ?? step.capabilityId}</h3><p>{step.reason}</p><small>{step.estimatedHours} hours · {step.resourceIds.length} resource(s) · {step.experienceIds.length} practice experience(s) · {step.masteryCheckIds.length} mastery check(s)</small></article>;
+  return <article><h3>{node?.title ?? step.capabilityId}</h3><p>{step.reason}</p><small>{countLabel(step.estimatedHours, "hour")} · {countLabel(step.resourceIds.length, "resource")} · {countLabel(step.experienceIds.length, "practice experience")} · {countLabel(step.masteryCheckIds.length, "mastery check")}</small></article>;
 }
 
 function HorizonItemView({
