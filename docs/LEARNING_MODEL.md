@@ -94,6 +94,8 @@ An evidence record includes:
 
 An AI judgment is one evidence class, never a hidden upgrade to truth.
 
+A prior-capability selection is a self-report and derives `supported`, not `independent`. Independent status requires a current mastery-check result. A graph may include a short deterministic diagnostic when representative answers can be scored locally without pretending to evaluate an artifact, interpretation, build, or performance that requires human judgment.
+
 ## Goals
 
 A goal contains:
@@ -122,6 +124,8 @@ The first deterministic planner should:
 6. attach resources, experiences, and mastery checks;
 7. fit the next horizon to available hours;
 8. retain explanations for every inclusion, exclusion, and ordering decision.
+
+The planner budgets horizon actions rather than treating a capability's full estimate as indivisible. Each reachable capability should expose a learn-practice-demonstrate sequence: a free supporting resource, a repository-authored practice experience, and a mastery check. A horizon is a budgeted prefix of those actions at the current prerequisite frontier; the full capability estimate remains visible in the journey.
 
 The planner outputs a view. It never edits the knowledge graph or learner evidence.
 

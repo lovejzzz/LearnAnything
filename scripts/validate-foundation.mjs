@@ -114,6 +114,13 @@ function validateGraph(graph, fileName) {
     }
     if (node.kind === 'mastery-check') {
       assert(node.mastery?.instructions, `${fileName} mastery check ${node.id} needs instructions`);
+      if (node.mastery?.diagnostic) {
+        assert(node.mastery.evaluation === 'deterministic', `${fileName} diagnostic ${node.id} must use deterministic evaluation`);
+        assert(node.mastery.diagnostic.questions.length > 0, `${fileName} diagnostic ${node.id} needs questions`);
+        for (const question of node.mastery.diagnostic.questions) {
+          assert(question.options.some((option) => option.id === question.correctOptionId), `${fileName} diagnostic ${node.id} has an unknown correct option`);
+        }
+      }
     }
     kindsPresent.add(node.kind);
   }
@@ -177,7 +184,8 @@ async function validateSchemas() {
   for (const fileName of schemaFiles) {
     const schema = await readJson(join('schemas', fileName));
     assert(schema.$schema === 'https://json-schema.org/draft/2020-12/schema', `${fileName} must use JSON Schema 2020-12`);
-    assert(schema.properties?.schemaVersion?.const === '0.1.0', `${fileName} must freeze schemaVersion 0.1.0`);
+    const expectedVersion = fileName === 'learning-path.schema.json' ? '0.2.0' : '0.1.0';
+    assert(schema.properties?.schemaVersion?.const === expectedVersion, `${fileName} must freeze schemaVersion ${expectedVersion}`);
   }
 }
 
@@ -220,7 +228,7 @@ async function main() {
   assert(Array.isArray(learner.evidence), 'learner-state.json needs evidence');
 
   const path = await readJson('examples/quantum-path.json');
-  assert(path.schemaVersion === '0.1.0', 'quantum-path.json has an unsupported schemaVersion');
+  assert(path.schemaVersion === '0.2.0', 'quantum-path.json has an unsupported schemaVersion');
   const quantum = graphs.get(path.graphId);
   assert(quantum, `quantum-path.json references unknown graph ${path.graphId}`);
   const targets = new Set(path.goal.targetCapabilityIds);
@@ -236,6 +244,8 @@ async function main() {
   assertUnique(path.steps.map((step) => step.capabilityId), 'quantum-path steps');
   assert(actualSteps.size === expectedSteps.size && [...expectedSteps].every((id) => actualSteps.has(id)), 'quantum-path steps must equal target prerequisite closure minus demonstrated capabilities');
   assert(path.horizon.capabilityIds.every((id) => actualSteps.has(id)), 'quantum-path horizon must be a subset of remaining steps');
+  assert(Array.isArray(path.horizon.items), 'quantum-path horizon needs budgeted action items');
+  assert(path.horizon.items.reduce((sum, item) => sum + item.estimatedHours, 0) <= path.horizon.budgetHours, 'quantum-path horizon actions exceed the budget');
 
   console.log(`Foundation valid: ${graphFiles.length} domain graphs, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.nodes.length, 0)} nodes, ${[...graphs.values()].reduce((sum, item) => sum + item.graph.edges.length, 0)} edges, 3 schemas.`);
 }

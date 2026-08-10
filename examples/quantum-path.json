@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "id": "example.quantum.two-path",
-  "plannerVersion": "0.1.0",
+  "plannerVersion": "0.2.0",
   "graphId": "quantum-physics-foundations",
-  "graphVersion": "0.1.0",
+  "graphVersion": "0.2.0",
   "learnerStateId": "example-local-learner",
   "goal": {
     "description": "Explain a two-path interference experiment using probability amplitudes.",
@@ -20,32 +20,91 @@
       "estimatedHours": 5,
       "reason": "Required by the target and not yet demonstrated independently.",
       "prerequisiteIds": [],
-      "resourceIds": [],
-      "masteryCheckIds": []
+      "resourceIds": ["q.resource.openstax"],
+      "experienceIds": ["q.experience.wave-superposition"],
+      "masteryCheckIds": ["q.check.wave-analysis"]
     },
     {
       "capabilityId": "q.cap.complex-amplitudes",
-      "stage": 2,
+      "stage": 1,
       "estimatedHours": 8,
       "reason": "Required by the target; its probability prerequisite is already demonstrated.",
       "prerequisiteIds": ["q.cap.probability-models"],
       "resourceIds": ["q.resource.openstax"],
-      "masteryCheckIds": []
+      "experienceIds": ["q.experience.amplitude-worked-cases"],
+      "masteryCheckIds": ["q.check.amplitude-solution"]
     },
     {
       "capabilityId": "q.cap.two-path-interference",
-      "stage": 3,
+      "stage": 2,
       "estimatedHours": 7,
       "reason": "This is the learner's approved target capability.",
       "prerequisiteIds": ["q.cap.wave-behavior", "q.cap.complex-amplitudes"],
       "resourceIds": ["q.resource.phet"],
+      "experienceIds": ["q.experience.interference-predictions"],
       "masteryCheckIds": ["q.check.interference-explanation"]
     }
   ],
   "horizon": {
     "days": 7,
     "budgetHours": 6,
-    "capabilityIds": ["q.cap.wave-behavior"]
+    "capabilityIds": ["q.cap.wave-behavior", "q.cap.complex-amplitudes"],
+    "items": [
+      {
+        "id": "action.q.cap.wave-behavior.learn.q.resource.openstax",
+        "capabilityId": "q.cap.wave-behavior",
+        "kind": "learn",
+        "nodeId": "q.resource.openstax",
+        "estimatedHours": 0.75,
+        "reason": "Use the attached free resource to establish the model and vocabulary needed for practice.",
+        "partial": false
+      },
+      {
+        "id": "action.q.cap.wave-behavior.practice.q.experience.wave-superposition",
+        "capabilityId": "q.cap.wave-behavior",
+        "kind": "practice",
+        "nodeId": "q.experience.wave-superposition",
+        "estimatedHours": 1.25,
+        "reason": "Complete the attached experience to practice the capability before assessment.",
+        "partial": false
+      },
+      {
+        "id": "action.q.cap.wave-behavior.demonstrate.q.check.wave-analysis",
+        "capabilityId": "q.cap.wave-behavior",
+        "kind": "demonstrate",
+        "nodeId": "q.check.wave-analysis",
+        "estimatedHours": 0.75,
+        "reason": "Produce the declared evidence so the learner model can justify replanning.",
+        "partial": false
+      },
+      {
+        "id": "action.q.cap.complex-amplitudes.learn.q.resource.openstax",
+        "capabilityId": "q.cap.complex-amplitudes",
+        "kind": "learn",
+        "nodeId": "q.resource.openstax",
+        "estimatedHours": 0.75,
+        "reason": "Use the attached free resource to establish the model and vocabulary needed for practice.",
+        "partial": false
+      },
+      {
+        "id": "action.q.cap.complex-amplitudes.practice.q.experience.amplitude-worked-cases",
+        "capabilityId": "q.cap.complex-amplitudes",
+        "kind": "practice",
+        "nodeId": "q.experience.amplitude-worked-cases",
+        "estimatedHours": 1.5,
+        "reason": "Complete the attached experience to practice the capability before assessment.",
+        "partial": false
+      },
+      {
+        "id": "action.q.cap.complex-amplitudes.demonstrate.q.check.amplitude-solution",
+        "capabilityId": "q.cap.complex-amplitudes",
+        "kind": "demonstrate",
+        "nodeId": "q.check.amplitude-solution",
+        "estimatedHours": 1,
+        "reason": "Produce the declared evidence so the learner model can justify replanning.",
+        "partial": false
+      }
+    ]
   },
   "blockedTargets": []
 }

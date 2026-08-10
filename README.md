@@ -6,17 +6,16 @@ It is not a ten-lesson course generator. A path may last a week or several years
 
 ## Status
 
-Foundation only. There is no application yet.
+The first offline vertical slice is runnable. It includes:
 
-The repository currently defines:
+- one deterministic graph and planner shared by the quantum physics, philosophy, and Minecraft Redstone fixtures;
+- an evidence ledger with freshness and confidence policy;
+- a seven-day learning horizon with resources and mastery checks;
+- a React interface organized as Map, Journey, and Now;
+- local IndexedDB persistence with project export and import;
+- package tests and a parameterized Playwright journey across all three domains.
 
-- the product promise and non-goals;
-- the global knowledge graph and learner model;
-- a zero-LLM-required researcher architecture;
-- strict package boundaries;
-- initial machine-readable contracts;
-- three deliberately different seed domains;
-- the exact first vertical slice for the next implementation task.
+The automated researcher remains a documented future boundary and is not implemented in this slice.
 
 ## Product thesis
 
@@ -36,19 +35,29 @@ Read these files in order:
 6. [docs/MVP.md](docs/MVP.md) — the first product milestone.
 7. [docs/BUILD_HANDOFF.md](docs/BUILD_HANDOFF.md) — the exact next Codex task.
 
-## Foundation validation
+## Run locally
 
-Requires Node.js 22 or newer. No package installation is required yet.
+Requires Node.js 22 or newer and pnpm 11.
 
 ```bash
-npm test
+pnpm install
+pnpm dev
 ```
 
-The command validates JSON syntax, cross-references, prerequisite acyclicity, source-use declarations, and the presence of all three seed-domain fixtures.
+After the first dependency installation, the app and its compact knowledge fixtures run without network access, a backend, an account, an API key, or an LLM.
 
-## Repository direction
+## Validate
 
-The initial implementation will use TypeScript, React, Vite, pnpm workspaces, Vitest, and Playwright. The graph and planner must remain pure TypeScript packages with no React or network dependency. The MVP must work with static repository data and browser-local learner state; it must not require an account, server, API key, or generative model.
+```bash
+pnpm validate
+pnpm e2e
+```
+
+`validate` checks TypeScript, the foundation data, package behavior, and the production build. `e2e` runs the complete browser loop for all three domains plus export/import recovery.
+
+## Repository shape
+
+The implementation uses TypeScript, React, Vite, pnpm workspaces, Vitest, and Playwright. The graph and planner are pure TypeScript packages with no React, storage, clock, random, or network dependency. The app composes those packages with static repository data and browser-local learner state.
 
 ## License status
 

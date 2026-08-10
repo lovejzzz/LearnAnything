@@ -109,6 +109,8 @@ Persisted documents carry `schemaVersion`. Published graphs also carry a graph `
 
 Breaking schema changes require explicit migrations and backward-compatibility fixtures. Updating a graph cannot erase historical learner evidence; it can mark evidence as needing reinterpretation.
 
+Computed learning paths use schema `0.2.0` for explicit resource, practice, and demonstration actions in the time-bounded horizon. Project import migrates stored `0.1.0` paths into the current shape without discarding historical plans.
+
 ## Security and privacy
 
 - Learner state stays on device by default.

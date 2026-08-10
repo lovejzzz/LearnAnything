@@ -1,7 +1,7 @@
 {
   "schemaVersion": "0.1.0",
   "id": "minecraft-redstone-engineering",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "Minecraft Redstone Engineering",
   "description": "A compact architecture fixture for version-sensitive practical knowledge demonstrated through functioning builds and debugging.",
   "language": "en",
@@ -58,8 +58,29 @@
       "resource": {
         "url": "https://minecraft.wiki/w/Redstone_circuits",
         "format": "documentation",
-        "access": "free"
+        "access": "free",
+        "durationMinutes": 30
       }
+    },
+    {
+      "id": "m.experience.power-lab",
+      "kind": "experience",
+      "title": "Measure a version-scoped power line",
+      "summary": "Build a labeled test line, predict power states and signal strengths, then compare predictions with observed behavior in one declared edition and version.",
+      "depth": "foundation",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "version-sensitive"]
+    },
+    {
+      "id": "m.experience.timing-lab",
+      "kind": "experience",
+      "title": "Measure and reshape Redstone pulses",
+      "summary": "Use repeaters and a visible output to measure delays, extend a pulse, shorten a pulse, and synchronize two paths.",
+      "depth": "foundation",
+      "estimatedHours": 1.25,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "timing"]
     },
     {
       "id": "m.experience.logic-build",
@@ -70,6 +91,73 @@
       "estimatedHours": 2,
       "sourceRefs": ["repo.foundation"],
       "tags": ["build", "debugging"]
+    },
+    {
+      "id": "m.check.power-diagnostic",
+      "kind": "mastery-check",
+      "title": "Redstone power diagnostic",
+      "summary": "A short offline diagnostic for baseline power behavior under declared Java Edition assumptions.",
+      "depth": "foundation",
+      "estimatedHours": 0.25,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "solution",
+        "instructions": "Answer both Java Edition power scenarios without opening the game or reference material.",
+        "evaluation": "deterministic",
+        "diagnostic": {
+          "passingScore": 1,
+          "questions": [
+            {
+              "id": "m.power.dust-decay",
+              "prompt": "In Java Edition, a dust line begins at signal strength 15. What strength does the next dust block along the line carry?",
+              "options": [
+                { "id": "m.power.option.fifteen", "label": "15" },
+                { "id": "m.power.option.fourteen", "label": "14" },
+                { "id": "m.power.option.zero", "label": "0" }
+              ],
+              "correctOptionId": "m.power.option.fourteen"
+            },
+            {
+              "id": "m.power.repeater-output",
+              "prompt": "A repeater receives a nonzero rear input. What signal strength does it emit from its front?",
+              "options": [
+                { "id": "m.power.option.same", "label": "Always the same strength as its input." },
+                { "id": "m.power.option.full", "label": "Full strength 15 after its configured delay." },
+                { "id": "m.power.option.random", "label": "A strength selected by the game tick." }
+              ],
+              "correctOptionId": "m.power.option.full"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "m.check.timing-demonstration",
+      "kind": "mastery-check",
+      "title": "Pulse timing demonstration",
+      "summary": "A version-labeled build demonstrating measured delays and pulse transformations.",
+      "depth": "foundation",
+      "estimatedHours": 0.75,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "build",
+        "instructions": "Submit one version-labeled test rig that demonstrates a measured delay, a pulse extension or shortening, and two synchronized paths. Explain the measured timings.",
+        "evaluation": "self"
+      }
+    },
+    {
+      "id": "m.check.logic-demonstration",
+      "kind": "mastery-check",
+      "title": "Logic circuit demonstration",
+      "summary": "A functioning circuit with a truth table and explanation of each state.",
+      "depth": "working",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "build",
+        "instructions": "Build a version-labeled circuit implementing at least two logical operations, demonstrate every input state, and explain how components produce the truth table.",
+        "evaluation": "peer"
+      }
     },
     {
       "id": "m.check.debugging-record",
@@ -116,6 +204,41 @@
       "sourceRefs": ["m.source.wiki"]
     },
     {
+      "from": "m.resource.wiki",
+      "to": "m.cap.timing",
+      "relation": "supports",
+      "rationale": "The free wiki documents repeater delays, pulses, and edition-specific timing behavior.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.resource.wiki",
+      "to": "m.cap.logic-circuits",
+      "relation": "supports",
+      "rationale": "The free wiki documents representative logic circuit designs and component behavior.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.resource.wiki",
+      "to": "m.cap.debug-build",
+      "relation": "supports",
+      "rationale": "The version-scoped reference helps distinguish design faults from edition-specific behavior.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.experience.power-lab",
+      "to": "m.cap.power-components",
+      "relation": "teaches",
+      "rationale": "Prediction and measurement make power behavior observable under explicit version assumptions.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.experience.timing-lab",
+      "to": "m.cap.timing",
+      "relation": "teaches",
+      "rationale": "The measured rig practices delay, pulse transformation, and synchronization.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
       "from": "m.experience.logic-build",
       "to": "m.cap.logic-circuits",
       "relation": "teaches",
@@ -127,6 +250,27 @@
       "to": "m.cap.debug-build",
       "relation": "teaches",
       "rationale": "Deliberate perturbation produces a bounded debugging experience.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.check.power-diagnostic",
+      "to": "m.cap.power-components",
+      "relation": "assesses",
+      "rationale": "Both deterministic scenarios must be solved correctly under the declared edition assumptions.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.check.timing-demonstration",
+      "to": "m.cap.timing",
+      "relation": "assesses",
+      "rationale": "The measured build demonstrates practical control of Redstone timing.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.check.logic-demonstration",
+      "to": "m.cap.logic-circuits",
+      "relation": "assesses",
+      "rationale": "The functioning build and truth table demonstrate circuit logic rather than copied construction.",
       "sourceRefs": ["repo.foundation"]
     },
     {

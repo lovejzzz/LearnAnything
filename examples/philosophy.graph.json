@@ -1,7 +1,7 @@
 {
   "schemaVersion": "0.1.0",
   "id": "philosophy-argument-paths",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "Philosophy Through Arguments",
   "description": "A compact architecture fixture for a domain with alternative routes, primary texts, contrasts, and legitimate disagreement.",
   "language": "en",
@@ -58,8 +58,44 @@
       "resource": {
         "url": "https://plato.stanford.edu/",
         "format": "article",
-        "access": "free"
+        "access": "free",
+        "durationMinutes": 40
       }
+    },
+    {
+      "id": "p.resource.iep",
+      "kind": "resource",
+      "title": "Internet Encyclopedia of Philosophy",
+      "summary": "A free scholarly reference for argument structure, positions, and philosophical methods.",
+      "depth": "foundation",
+      "estimatedHours": 0,
+      "sourceRefs": ["p.source.iep-argument"],
+      "resource": {
+        "url": "https://iep.utm.edu/",
+        "format": "article",
+        "access": "free",
+        "durationMinutes": 30
+      }
+    },
+    {
+      "id": "p.experience.argument-reconstruction",
+      "kind": "experience",
+      "title": "Reconstruct and strengthen short arguments",
+      "summary": "Mark premises, conclusions, and implicit assumptions in short passages, then revise each into its strongest plausible form.",
+      "depth": "foundation",
+      "estimatedHours": 1.25,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "argumentation"]
+    },
+    {
+      "id": "p.experience.primary-text-annotation",
+      "kind": "experience",
+      "title": "Annotate a primary-text passage",
+      "summary": "Separate quotation, contextual interpretation, and evaluation while annotating one compact philosophical passage.",
+      "depth": "foundation",
+      "estimatedHours": 1.5,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "primary-text"]
     },
     {
       "id": "p.experience.position-dialogue",
@@ -70,6 +106,59 @@
       "estimatedHours": 2,
       "sourceRefs": ["repo.foundation"],
       "tags": ["writing", "dialogue"]
+    },
+    {
+      "id": "p.check.argument-diagnostic",
+      "kind": "mastery-check",
+      "title": "Argument reconstruction diagnostic",
+      "summary": "A short offline diagnostic for premise, conclusion, and charitable reconstruction.",
+      "depth": "foundation",
+      "estimatedHours": 0.25,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "analysis",
+        "instructions": "Answer both argument-structure scenarios without hints.",
+        "evaluation": "deterministic",
+        "diagnostic": {
+          "passingScore": 1,
+          "questions": [
+            {
+              "id": "p.argument.conclusion",
+              "prompt": "In ‘All policies that reduce avoidable harm deserve consideration; this policy reduces avoidable harm; therefore this policy deserves consideration,’ which clause is the conclusion?",
+              "options": [
+                { "id": "p.argument.option.first", "label": "All policies that reduce avoidable harm deserve consideration." },
+                { "id": "p.argument.option.second", "label": "This policy reduces avoidable harm." },
+                { "id": "p.argument.option.third", "label": "This policy deserves consideration." }
+              ],
+              "correctOptionId": "p.argument.option.third"
+            },
+            {
+              "id": "p.argument.charity",
+              "prompt": "A speaker argues: ‘The city should add protected bike lanes because safer routes bring more commuters to cycling, and fewer car trips reduce congestion.’ Which reconstruction is strongest and most charitable?",
+              "options": [
+                { "id": "p.argument.option.weakest", "label": "Cycling is good, so the city should eventually ban cars." },
+                { "id": "p.argument.option.strongest", "label": "Protected lanes can make routes safer; safer routes can increase cycling; increased cycling can reduce car trips; fewer car trips can reduce congestion; therefore the city has a congestion-related reason to add protected lanes." },
+                { "id": "p.argument.option.agreement", "label": "The city should add bike lanes because the speaker prefers bicycles." }
+              ],
+              "correctOptionId": "p.argument.option.strongest"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "p.check.primary-text-analysis",
+      "kind": "mastery-check",
+      "title": "Primary-text interpretation note",
+      "summary": "A source-visible note separating text, context, interpretation, and evaluation.",
+      "depth": "foundation",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "analysis",
+        "instructions": "Annotate a short primary passage with one quotation, its immediate context, a defensible interpretation, one alternative reading, and your separately labeled evaluation.",
+        "evaluation": "peer"
+      }
     },
     {
       "id": "p.check.comparative-essay",
@@ -116,6 +205,20 @@
       "sourceRefs": ["repo.foundation"]
     },
     {
+      "from": "p.resource.iep",
+      "to": "p.cap.reconstruct-argument",
+      "relation": "supports",
+      "rationale": "The free reference provides argument terminology and examples for reconstruction practice.",
+      "sourceRefs": ["p.source.iep-argument"]
+    },
+    {
+      "from": "p.resource.sep",
+      "to": "p.cap.read-primary-text",
+      "relation": "supports",
+      "rationale": "Scholarly entries provide historical context and bibliographies for primary-text interpretation.",
+      "sourceRefs": ["p.source.sep"]
+    },
+    {
       "from": "p.resource.sep",
       "to": "p.cap.compare-positions",
       "relation": "supports",
@@ -123,10 +226,52 @@
       "sourceRefs": ["p.source.sep"]
     },
     {
+      "from": "p.resource.sep",
+      "to": "p.cap.defend-revision",
+      "relation": "supports",
+      "rationale": "Scholarly surveys expose strong objections and live alternatives that inform defensible revision.",
+      "sourceRefs": ["p.source.sep"]
+    },
+    {
+      "from": "p.experience.argument-reconstruction",
+      "to": "p.cap.reconstruct-argument",
+      "relation": "teaches",
+      "rationale": "Repeated passage reconstruction practices premises, conclusions, assumptions, and charity.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.experience.primary-text-annotation",
+      "to": "p.cap.read-primary-text",
+      "relation": "teaches",
+      "rationale": "Annotation makes the distinction between textual evidence, interpretation, and evaluation explicit.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.experience.position-dialogue",
+      "to": "p.cap.compare-positions",
+      "relation": "teaches",
+      "rationale": "Alternating positions and objections practices fair comparison before revision.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
       "from": "p.experience.position-dialogue",
       "to": "p.cap.defend-revision",
       "relation": "teaches",
       "rationale": "Alternating argument and objection makes revision visible as a capability.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.check.argument-diagnostic",
+      "to": "p.cap.reconstruct-argument",
+      "relation": "assesses",
+      "rationale": "Both offline scenarios must correctly identify structure and charitable reconstruction.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.check.primary-text-analysis",
+      "to": "p.cap.read-primary-text",
+      "relation": "assesses",
+      "rationale": "The annotated note demonstrates source-visible contextual interpretation.",
       "sourceRefs": ["repo.foundation"]
     },
     {

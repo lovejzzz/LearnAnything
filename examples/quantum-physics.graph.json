@@ -1,7 +1,7 @@
 {
   "schemaVersion": "0.1.0",
   "id": "quantum-physics-foundations",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "Quantum Physics Foundations",
   "description": "A compact architecture fixture for a prerequisite-heavy mathematical and conceptual domain.",
   "language": "en",
@@ -58,7 +58,8 @@
       "resource": {
         "url": "https://openstax.org/details/books/university-physics-volume-3",
         "format": "book",
-        "access": "free"
+        "access": "free",
+        "durationMinutes": 45
       }
     },
     {
@@ -74,6 +75,113 @@
         "format": "simulation",
         "access": "free",
         "durationMinutes": 45
+      }
+    },
+    {
+      "id": "q.experience.probability-scenarios",
+      "kind": "experience",
+      "title": "Model and compare probability scenarios",
+      "summary": "Build simple outcome models, calculate predictions, then compare them with small observed samples without conflating model and result.",
+      "depth": "foundation",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "probability"]
+    },
+    {
+      "id": "q.experience.wave-superposition",
+      "kind": "experience",
+      "title": "Sketch and combine phased waves",
+      "summary": "Work through wavelength, frequency, phase, and superposition cases by predicting and sketching the combined behavior.",
+      "depth": "foundation",
+      "estimatedHours": 1.25,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "waves"]
+    },
+    {
+      "id": "q.experience.amplitude-worked-cases",
+      "kind": "experience",
+      "title": "Calculate simple amplitude cases",
+      "summary": "Add representative complex amplitudes and compare the resulting magnitudes and outcome probabilities.",
+      "depth": "working",
+      "estimatedHours": 1.5,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "amplitudes"]
+    },
+    {
+      "id": "q.experience.interference-predictions",
+      "kind": "experience",
+      "title": "Predict changed two-path setups",
+      "summary": "Use the linked simulation or paper sketches to predict several path, phase, and measurement changes before observing the result.",
+      "depth": "working",
+      "estimatedHours": 1.25,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["practice", "interference"]
+    },
+    {
+      "id": "q.check.probability-diagnostic",
+      "kind": "mastery-check",
+      "title": "Probability model diagnostic",
+      "summary": "A short offline diagnostic distinguishing model predictions from observed samples.",
+      "depth": "foundation",
+      "estimatedHours": 0.25,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "solution",
+        "instructions": "Answer both scenarios without hints or external calculation tools.",
+        "evaluation": "deterministic",
+        "diagnostic": {
+          "passingScore": 1,
+          "questions": [
+            {
+              "id": "q.probability.even-die",
+              "prompt": "For a fair six-sided die, what probability should the model assign to an even outcome?",
+              "options": [
+                { "id": "q.probability.option.one-third", "label": "1/3" },
+                { "id": "q.probability.option.one-half", "label": "1/2" },
+                { "id": "q.probability.option.two-thirds", "label": "2/3" }
+              ],
+              "correctOptionId": "q.probability.option.one-half"
+            },
+            {
+              "id": "q.probability.sample",
+              "prompt": "A fair coin produced 14 heads in 20 trials. Which statement correctly separates the model from the observation?",
+              "options": [
+                { "id": "q.probability.option.model-changed", "label": "The model probability is now 14/20." },
+                { "id": "q.probability.option.sample-only", "label": "The model remains 1/2; 14/20 describes this observed sample." },
+                { "id": "q.probability.option.impossible", "label": "The observation disproves a fair-coin model." }
+              ],
+              "correctOptionId": "q.probability.option.sample-only"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "q.check.wave-analysis",
+      "kind": "mastery-check",
+      "title": "Wave superposition analysis",
+      "summary": "A worked explanation of representative phase and superposition changes.",
+      "depth": "foundation",
+      "estimatedHours": 0.75,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "solution",
+        "instructions": "Predict three pairs of waves with equal, opposite, and quarter-cycle phase differences. Sketch the sums and explain each result using phase and superposition.",
+        "evaluation": "self"
+      }
+    },
+    {
+      "id": "q.check.amplitude-solution",
+      "kind": "mastery-check",
+      "title": "Complex amplitude solution set",
+      "summary": "A worked set connecting complex-amplitude sums to probabilities.",
+      "depth": "working",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "solution",
+        "instructions": "Solve three supplied two-amplitude cases, show the complex addition, compute magnitude squared, and explain what the result predicts.",
+        "evaluation": "self"
       }
     },
     {
@@ -115,6 +223,20 @@
     },
     {
       "from": "q.resource.openstax",
+      "to": "q.cap.probability-models",
+      "relation": "supports",
+      "rationale": "The open text supplies probability language and worked quantitative context used by the guided scenarios.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.resource.openstax",
+      "to": "q.cap.wave-behavior",
+      "relation": "supports",
+      "rationale": "The open text supplies wave, phase, and superposition background.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.resource.openstax",
       "to": "q.cap.complex-amplitudes",
       "relation": "supports",
       "rationale": "The linked text provides formal background and worked context.",
@@ -126,6 +248,55 @@
       "relation": "supports",
       "rationale": "The simulation makes changes in path and observation conditions visible.",
       "sourceRefs": ["q.source.phet"]
+    },
+    {
+      "from": "q.experience.probability-scenarios",
+      "to": "q.cap.probability-models",
+      "relation": "teaches",
+      "rationale": "Repeated model-versus-sample comparisons practice the observable probability capability.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.experience.wave-superposition",
+      "to": "q.cap.wave-behavior",
+      "relation": "teaches",
+      "rationale": "Prediction and sketching make phase and superposition operational.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.experience.amplitude-worked-cases",
+      "to": "q.cap.complex-amplitudes",
+      "relation": "teaches",
+      "rationale": "Worked cases connect complex addition to observable probability.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.experience.interference-predictions",
+      "to": "q.cap.two-path-interference",
+      "relation": "teaches",
+      "rationale": "Prediction before observation practices causal explanation rather than recognition.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.check.probability-diagnostic",
+      "to": "q.cap.probability-models",
+      "relation": "assesses",
+      "rationale": "Both diagnostic scenarios must be solved correctly without hints.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.check.wave-analysis",
+      "to": "q.cap.wave-behavior",
+      "relation": "assesses",
+      "rationale": "The sketches and explanations demonstrate independent phase and superposition reasoning.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "q.check.amplitude-solution",
+      "to": "q.cap.complex-amplitudes",
+      "relation": "assesses",
+      "rationale": "The worked set demonstrates amplitude calculation and interpretation.",
+      "sourceRefs": ["repo.foundation"]
     },
     {
       "from": "q.check.interference-explanation",

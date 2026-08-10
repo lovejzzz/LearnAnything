@@ -74,7 +74,42 @@
           "properties": {
             "evidenceType": { "enum": ["explanation", "solution", "analysis", "build", "performance", "project", "reflection"] },
             "instructions": { "type": "string", "minLength": 1 },
-            "evaluation": { "enum": ["self", "deterministic", "peer", "expert", "optional-ai"] }
+            "evaluation": { "enum": ["self", "deterministic", "peer", "expert", "optional-ai"] },
+            "diagnostic": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["questions", "passingScore"],
+              "properties": {
+                "questions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["id", "prompt", "options", "correctOptionId"],
+                    "properties": {
+                      "id": { "$ref": "#/$defs/id" },
+                      "prompt": { "type": "string", "minLength": 1 },
+                      "options": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": ["id", "label"],
+                          "properties": {
+                            "id": { "$ref": "#/$defs/id" },
+                            "label": { "type": "string", "minLength": 1 }
+                          }
+                        }
+                      },
+                      "correctOptionId": { "$ref": "#/$defs/id" }
+                    }
+                  }
+                },
+                "passingScore": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+              }
+            }
           }
         }
       }

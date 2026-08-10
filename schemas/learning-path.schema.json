@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schemaVersion", "id", "plannerVersion", "graphId", "graphVersion", "learnerStateId", "goal", "generatedAt", "steps", "horizon", "blockedTargets"],
   "properties": {
-    "schemaVersion": { "const": "0.1.0" },
+    "schemaVersion": { "const": "0.2.0" },
     "id": { "type": "string", "minLength": 1 },
     "plannerVersion": { "type": "string", "minLength": 1 },
     "graphId": { "type": "string", "minLength": 1 },
@@ -30,7 +30,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["capabilityId", "stage", "estimatedHours", "reason", "prerequisiteIds", "resourceIds", "masteryCheckIds"],
+        "required": ["capabilityId", "stage", "estimatedHours", "reason", "prerequisiteIds", "resourceIds", "experienceIds", "masteryCheckIds"],
         "properties": {
           "capabilityId": { "type": "string" },
           "stage": { "type": "integer", "minimum": 1 },
@@ -38,6 +38,7 @@
           "reason": { "type": "string", "minLength": 1 },
           "prerequisiteIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "resourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "experienceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "masteryCheckIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
         }
       }
@@ -45,11 +46,28 @@
     "horizon": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["days", "budgetHours", "capabilityIds"],
+      "required": ["days", "budgetHours", "capabilityIds", "items"],
       "properties": {
         "days": { "type": "integer", "minimum": 1 },
         "budgetHours": { "type": "number", "exclusiveMinimum": 0 },
-        "capabilityIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        "capabilityIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "capabilityId", "kind", "nodeId", "estimatedHours", "reason", "partial"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "capabilityId": { "type": "string", "minLength": 1 },
+              "kind": { "enum": ["learn", "practice", "demonstrate"] },
+              "nodeId": { "type": "string", "minLength": 1 },
+              "estimatedHours": { "type": "number", "exclusiveMinimum": 0 },
+              "reason": { "type": "string", "minLength": 1 },
+              "partial": { "type": "boolean" }
+            }
+          }
+        }
       }
     },
     "blockedTargets": {

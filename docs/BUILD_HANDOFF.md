@@ -84,3 +84,10 @@ Stop and document the decision instead of expanding scope if implementation appe
 ## Deliverable
 
 A locally runnable web app plus tests demonstrating the complete loop for the compact fixtures. Update this file with the next unresolved product questions; do not turn it into release history.
+
+## Next unresolved product questions
+
+- Which capabilities can be assessed responsibly with short deterministic diagnostics, and which must always require artifact, peer, or expert evidence?
+- How should completed learning and practice actions be remembered across horizons without presenting activity as mastery?
+- Should evidence freshness use one general reassessment window, capability-specific policy stored in the graph, or a policy tied to evidence type and evaluator?
+- How should an offline learner record peer- or expert-evaluated mastery while keeping the evaluator claim explicit and auditable?

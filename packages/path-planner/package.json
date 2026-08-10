@@ -1,0 +1,12 @@
+{
+  "name": "@learn-anything/path-planner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@learn-anything/contracts": "workspace:*",
+    "@learn-anything/knowledge-graph": "workspace:*",
+    "@learn-anything/learner-model": "workspace:*"
+  }
+}
