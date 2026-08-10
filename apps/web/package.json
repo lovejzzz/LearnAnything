@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@learn-anything/contracts": "workspace:*",
+    "@learn-anything/goal-model": "workspace:*",
     "@learn-anything/knowledge-graph": "workspace:*",
     "@learn-anything/learner-model": "workspace:*",
     "@learn-anything/mastery": "workspace:*",

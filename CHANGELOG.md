@@ -2,6 +2,26 @@
 
 All notable changes to LearnAnything are documented in this file.
 
+## 0.3.0 - 2026-08-10
+
+### Added
+
+- A free-form learning intake for topic, current position, desired capability, and weekly time.
+- A pure deterministic `goal-model` package that resolves learner language into reviewed graph packs and target capabilities without network or model access.
+- Visible learning-gap framing before the existing Map, Journey, and Now course surfaces.
+- Data-driven topic aliases, bounded input validation, and starting-capability suggestions that remain unselected until the learner confirms them.
+- Cross-browser coverage for all three free-form domain journeys, unknown topics, and the boundary between self-description and demonstrated evidence.
+
+### Changed
+
+- Replaced the seed-domain-first homepage with destination-first intake and explicit learner placement.
+- Goals now preserve the learner's stated outcome while the learner still approves the operational target capability.
+
+### Not included
+
+- Unknown topics do not yet produce a graph. The site stops visibly instead of presenting an AI-generated course as reviewed knowledge.
+- Free-text self-description never establishes mastery; diagnostics or completed evidence remain required.
+
 ## 0.2.0 - 2026-08-10
 
 ### Added

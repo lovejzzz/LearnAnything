@@ -69,6 +69,10 @@ Pure and deterministic. It knows nothing about React, storage, network providers
 
 Owns private evidence history and derived learner status. It never changes shared graph truth. Self-reports remain distinguishable from demonstrated evidence.
 
+### Goal model
+
+Clarifies bounded learner input and resolves it against supplied reviewed graph packs. It may suggest a domain, target capability, or placement question, but it does not compute paths, create graph truth, or turn free-text self-description into evidence.
+
 ### Path planner
 
 Pure function of graph version, learner-state version, goal, and planner configuration. It returns path plus explanation. It does not persist or silently patch its inputs.

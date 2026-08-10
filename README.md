@@ -10,6 +10,9 @@ It is not a ten-lesson course generator. A path may last a week or several years
 
 The first offline vertical slice is runnable. It includes:
 
+- a free-form intake for what the learner wants to learn, where they are now, and what they want to become capable of doing;
+- deterministic matching into reviewed graph packs with an explicit stop for unmapped topics;
+- suggested placement questions that never become evidence until the learner confirms or demonstrates them;
 - one deterministic graph and planner shared by the quantum physics, philosophy, and Minecraft Redstone fixtures;
 - an evidence ledger with freshness and confidence policy;
 - a seven-day learning horizon with resources and mastery checks;
@@ -18,6 +21,8 @@ The first offline vertical slice is runnable. It includes:
 - package tests and a parameterized Playwright journey across all three domains.
 
 The first automated-researcher milestone is also available as an optional local workflow. It uses the authenticated Codex CLI to discover resource candidates for one existing capability, then emits an unreviewed JSON proposal that the website can display. It never edits the graph automatically, and the offline learning loop still requires no LLM.
+
+The public intake accepts any topic text, but planning currently proceeds only when that topic resolves to a reviewed graph pack. An unknown topic remains an explicit unmapped request; building cited draft maps for those requests is the next researcher boundary.
 
 ## Product thesis
 

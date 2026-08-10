@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import type { KnowledgeGraph } from "@learn-anything/contracts";
 import { buildResearchProposal, createResearchBrief } from "@learn-anything/researcher";
@@ -6,6 +6,9 @@ import { buildResearchProposal, createResearchBrief } from "@learn-anything/rese
 const fixtures = [
   {
     name: "quantum physics",
+    topic: "quantum physics",
+    currentPosition: "I can reason with basic probability models.",
+    goal: "Explain a two-path interference experiment.",
     domainId: "quantum-physics-foundations",
     targetId: "q.cap.two-path-interference",
     diagnosticCapabilityId: "q.cap.probability-models",
@@ -14,6 +17,9 @@ const fixtures = [
   },
   {
     name: "philosophy",
+    topic: "philosophy",
+    currentPosition: "I can reconstruct a short argument charitably.",
+    goal: "Defend and revise a philosophical position.",
     domainId: "philosophy-argument-paths",
     targetId: "p.cap.defend-revision",
     diagnosticCapabilityId: "p.cap.reconstruct-argument",
@@ -22,6 +28,9 @@ const fixtures = [
   },
   {
     name: "Minecraft Redstone",
+    topic: "Minecraft Redstone",
+    currentPosition: "I know how Redstone power components work.",
+    goal: "Debug a complete Redstone build and explain the fault.",
     domainId: "minecraft-redstone-engineering",
     targetId: "m.cap.debug-build",
     diagnosticCapabilityId: "m.cap.power-components",
@@ -30,13 +39,21 @@ const fixtures = [
   },
 ];
 
+async function resolveReviewedMap(page: Page, fixture = fixtures[0]!, hours = 6) {
+  await page.getByLabel("What do you want to learn?").fill(fixture.topic);
+  await page.getByLabel("Where are you right now?").fill(fixture.currentPosition);
+  await page.getByLabel("What is your goal?").fill(fixture.goal);
+  await page.getByLabel("Hours available each week").fill(String(hours));
+  await page.getByTestId("resolve-intake").click();
+  await expect(page.getByTestId("intake-resolution")).toContainText(fixture.topic, { ignoreCase: true });
+  await page.getByTestId("target-select").selectOption(fixture.targetId);
+}
+
 for (const fixture of fixtures) {
   test(`${fixture.name}: plan, demonstrate, and deterministically replan`, async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("Choose a destination", { exact: false })).toBeVisible();
-    await page.getByTestId("domain-select").selectOption(fixture.domainId);
-    await page.getByTestId("target-select").selectOption(fixture.targetId);
-    await page.getByLabel("Hours available this week").fill("30");
+    await expect(page.getByText("Tell us what you want", { exact: false })).toBeVisible();
+    await resolveReviewedMap(page, fixture, 30);
 
     const priorCapabilities = page.getByTestId("prior-capabilities").locator('input[type="checkbox"]');
     for (let index = 0; index < await priorCapabilities.count(); index += 1) await priorCapabilities.nth(index).check();
@@ -75,8 +92,7 @@ for (const fixture of fixtures) {
 
 test("project export, clear, and import restores browser state", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("domain-select").selectOption("quantum-physics-foundations");
-  await page.getByLabel("Hours available this week").fill("10");
+  await resolveReviewedMap(page, fixtures[0]!, 10);
   await page.getByTestId("build-path").click();
   await expect(page.getByText("Plan identity", { exact: false })).toBeVisible();
   await expect(page.getByRole("status")).toContainText("Path planned");
@@ -106,7 +122,7 @@ test("project export, clear, and import restores browser state", async ({ page }
 
 test("an unsupported-domain import is rejected without replacing the saved project", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("domain-select").selectOption("philosophy-argument-paths");
+  await resolveReviewedMap(page, fixtures[1]!);
   await page.getByTestId("build-path").click();
   await expect(page.getByRole("status")).toContainText("Path planned");
 
@@ -125,10 +141,10 @@ test("an unsupported-domain import is rejected without replacing the saved proje
   });
 
   await expect(page.getByRole("status")).toContainText("does not include the imported domain");
-  await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
+  await expect(page.getByTestId("learning-gap")).toContainText("Defend and revise");
   await page.reload();
-  await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
   await expect(page.getByRole("status")).toContainText("Restored 1 saved plan.");
+  await expect(page.getByTestId("learning-gap")).toContainText("Defend and revise");
 });
 
 test("an AI research proposal stays visibly unreviewed and does not mutate the map", async ({ page }) => {
@@ -162,6 +178,7 @@ test("an AI research proposal stays visibly unreviewed and does not mutate the m
   }, { provider: "codex-cli", model: "test-model" }, "2026-08-10T07:01:00.000Z");
 
   await page.goto("/");
+  await resolveReviewedMap(page, fixtures[0]!);
   await expect(page.getByText("Target · unseen")).toBeVisible();
   await page.getByTestId("research-proposal-input").setInputFiles({
     name: "research-proposal.json",
@@ -175,7 +192,7 @@ test("an AI research proposal stays visibly unreviewed and does not mutate the m
   await expect(page.getByText("Target · unseen")).toBeVisible();
   await expect(page.getByText("No graph changes were applied.")).toBeVisible();
 
-  await page.getByTestId("domain-select").selectOption("philosophy-argument-paths");
+  await resolveReviewedMap(page, fixtures[1]!);
   await expect(page.getByTestId("research-proposal")).toHaveCount(0);
   await expect(page.getByTestId("research-status")).toContainText("Run the local researcher");
 
@@ -190,6 +207,7 @@ test("an AI research proposal stays visibly unreviewed and does not mutate the m
 
 test("oversized research proposals are rejected before parsing", async ({ page }) => {
   await page.goto("/");
+  await resolveReviewedMap(page, fixtures[0]!);
   await page.getByTestId("research-proposal-input").setInputFiles({
     name: "oversized-proposal.json",
     mimeType: "application/json",
@@ -202,9 +220,10 @@ test("oversized research proposals are rejected before parsing", async ({ page }
 test("semantic surfaces, named status, branches, keyboard use, and reduced motion remain accessible", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
+  await resolveReviewedMap(page, fixtures[1]!);
   await expect(page.getByRole("region", { name: "Map" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Journey" })).toBeVisible();
-  await expect(page.getByRole("region", { name: "Now" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Now", exact: true })).toBeVisible();
   await expect(page.getByText("Target · unseen")).toBeVisible();
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
 
@@ -216,12 +235,13 @@ test("semantic surfaces, named status, branches, keyboard use, and reduced motio
   await page.reload();
 
   for (let index = 0; index < 8; index += 1) {
-    if (await page.getByTestId("domain-select").evaluate((element) => element === document.activeElement)) break;
+    if (await page.getByTestId("topic-input").evaluate((element) => element === document.activeElement)) break;
     await page.keyboard.press("Tab");
   }
-  await expect(page.getByTestId("domain-select")).toBeFocused();
+  await expect(page.getByTestId("topic-input")).toBeFocused();
   await page.keyboard.type("Philosophy");
-  await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
+  await expect(page.getByTestId("topic-input")).toHaveValue("Philosophy");
+  await resolveReviewedMap(page, fixtures[1]!);
   await expect(page.getByText("Branches and contrasts")).toBeVisible();
   await expect(page.getByText("alternative-to")).toBeVisible();
 });
@@ -229,6 +249,7 @@ test("semantic surfaces, named status, branches, keyboard use, and reduced motio
 test("phone layout has no horizontal overflow and keeps primary touch targets usable", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
+  await resolveReviewedMap(page, fixtures[0]!);
 
   const dimensions = await page.locator("html").evaluate((element) => ({
     clientWidth: element.clientWidth,
@@ -243,6 +264,30 @@ test("phone layout has no horizontal overflow and keeps primary touch targets us
 
   await page.getByTestId("build-path").click();
   await expect(page.locator("code")).toHaveCSS("color", "rgb(32, 37, 31)");
+});
+
+test("an unknown topic remains an explicit unmapped request instead of a generated course", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("What do you want to learn?").fill("jazz harmony");
+  await page.getByLabel("Where are you right now?").fill("I can read chord symbols and play piano.");
+  await page.getByLabel("What is your goal?").fill("Reharmonize a jazz standard and explain my choices.");
+  await page.getByTestId("resolve-intake").click();
+
+  await expect(page.getByTestId("unmapped-topic")).toContainText("will not invent a course");
+  await expect(page.getByRole("region", { name: "Map" })).toHaveCount(0);
+  await expect(page.getByRole("status")).toContainText("does not have a reviewed map yet");
+});
+
+test("current-position matching suggests placement without selecting or proving it", async ({ page }) => {
+  await page.goto("/");
+  await resolveReviewedMap(page, fixtures[0]!);
+  const suggested = page.getByText("Suggested from your description").first();
+  await expect(suggested).toBeVisible();
+  const probability = page.getByRole("checkbox", { name: "Reason with probability models", exact: false });
+  await expect(probability).not.toBeChecked();
+  await page.getByTestId("build-path").click();
+  await expect(page.locator(".map-list").getByText("Reason with probability models", { exact: true })).toBeVisible();
+  await expect(page.locator(".map-list").getByText("unseen", { exact: true }).first()).toBeVisible();
 });
 
 test("production surface exposes health and browser security policy", async ({ request }) => {

@@ -188,6 +188,8 @@ Reviewers approve individual patch operations or coherent bounded patches. They 
 
 The first offline vertical slice shipped with manually authored seed graphs that obey the source contract. The first researcher milestone now discovers and ranks candidate resources for one existing capability through an optional local Codex CLI workflow. It emits a bounded `0.1.0` proposal with visible signals, warnings, rights defaults, exact runtime identity and usage when reported, and receipts. The local process is read-only, ephemeral, time-bounded, and instructed to treat retrieved pages as untrusted data. The website size-checks and validates imported proposals for the active graph but cannot apply them to the graph.
 
+Free-form learner intake now resolves locally and deterministically against reviewed graph packs. If no pack matches, the request remains visibly unmapped: it is not sent to a model, and the site does not fabricate a graph or course. A future topic-research contract must preserve that intake as a bounded brief, keep proposed capabilities and prerequisite edges visibly unreviewed, and require granular disposition before publication.
+
 The next boundary is reviewer disposition for individual candidates: accept, reject, or request verification while preserving the original proposal and receipts. Do not add automatic graph publication, recursive crawling, learner-evidence disclosure, or hosted credentials as part of that work.
 
 ## Known source considerations
