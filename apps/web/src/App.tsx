@@ -177,6 +177,10 @@ export function App() {
   }
 
   async function clearProject() {
+    if (!window.confirm("Clear this browser project? Export it first if you may want to restore it.")) {
+      setNotice("Clear cancelled. Your browser project is unchanged.");
+      return;
+    }
     await store.clear();
     setProject(createProject(graph, timestamp(), hoursPerWeek));
     setPriorIds([]);
@@ -186,11 +190,14 @@ export function App() {
   const stages = new Map<number, PathStep[]>();
   for (const step of currentPlan?.steps ?? []) stages.set(step.stage, [...(stages.get(step.stage) ?? []), step]);
   const horizonItems = currentPlan?.horizon.items ?? [];
+  const pathHours = currentPlan?.steps.reduce((total, step) => total + step.estimatedHours, 0) ?? 0;
+  const horizonHours = horizonItems.reduce((total, item) => total + item.estimatedHours, 0);
 
   if (project === undefined) return <main className="loading"><p aria-live="polite">{notice}</p></main>;
 
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <a className="wordmark" href="#map">LearnAnything</a>
         <p>Map the territory. Demonstrate progress. Replan locally.</p>
@@ -201,7 +208,7 @@ export function App() {
         </div>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="orientation" aria-labelledby="orientation-title">
           <div>
             <p className="eyebrow">Offline learning project</p>
@@ -287,16 +294,21 @@ export function App() {
             {currentPlan === undefined ? <p className="empty">Compute a path to turn the map into an ordered, prerequisite-closed journey.</p> : currentPlan.steps.length === 0 ? (
               <p className="success" data-testid="journey-complete">The target is currently demonstrated. Your prior plans remain in local history.</p>
             ) : (
-              <ol className="stage-list" data-testid="journey-steps">
-                {[...stages.entries()].sort(([a], [b]) => a - b).map(([stage, steps]) => (
-                  <li key={stage}>
-                    <span className="stage-number">Stage {stage}</span>
-                    <div className="stage-steps">
-                      {steps.map((step) => <JourneyStep key={step.capabilityId} step={step} node={index.nodes.get(step.capabilityId)} />)}
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <>
+                <p className="plan-summary" data-testid="plan-summary">
+                  {currentPlan.steps.length} {currentPlan.steps.length === 1 ? "capability" : "capabilities"} · {pathHours} estimated hours · {stages.size} {stages.size === 1 ? "stage" : "stages"}
+                </p>
+                <ol className="stage-list" data-testid="journey-steps">
+                  {[...stages.entries()].sort(([a], [b]) => a - b).map(([stage, steps]) => (
+                    <li key={stage}>
+                      <span className="stage-number">Stage {stage}</span>
+                      <div className="stage-steps">
+                        {steps.map((step) => <JourneyStep key={step.capabilityId} step={step} node={index.nodes.get(step.capabilityId)} />)}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </>
             )}
           </section>
 
@@ -305,23 +317,28 @@ export function App() {
             {currentPlan === undefined ? <p className="empty">Your seven-day horizon will appear after planning.</p> : horizonItems.length === 0 ? (
               <p className="empty" data-testid="empty-horizon">No remaining capability fits the current budget—or the target is already demonstrated.</p>
             ) : (
-              <ol className="now-list" data-testid="horizon-items">
-                {horizonItems.map((item) => {
-                  const step = currentPlan.steps.find((candidate) => candidate.capabilityId === item.capabilityId);
-                  if (step === undefined) return null;
-                  return <HorizonItemView
-                    key={item.id}
-                    item={item}
-                    step={step}
-                    capability={index.nodes.get(item.capabilityId)}
-                    actionNode={index.nodes.get(item.nodeId)}
-                    busy={busy}
-                    onResourceOpen={(resourceId) => void recordResourceOpen(resourceId)}
-                    onMastery={(submission) => void recordMastery(step, submission)}
-                    onDiagnostic={(checkId, answers) => void recordDiagnostic(step, checkId, answers)}
-                  />;
-                })}
-              </ol>
+              <>
+                <p className="plan-summary" data-testid="horizon-summary">
+                  {horizonItems.length} {horizonItems.length === 1 ? "action" : "actions"} · {horizonHours} estimated hours scheduled this week
+                </p>
+                <ol className="now-list" data-testid="horizon-items">
+                  {horizonItems.map((item) => {
+                    const step = currentPlan.steps.find((candidate) => candidate.capabilityId === item.capabilityId);
+                    if (step === undefined) return null;
+                    return <HorizonItemView
+                      key={item.id}
+                      item={item}
+                      step={step}
+                      capability={index.nodes.get(item.capabilityId)}
+                      actionNode={index.nodes.get(item.nodeId)}
+                      busy={busy}
+                      onResourceOpen={(resourceId) => void recordResourceOpen(resourceId)}
+                      onMastery={(submission) => void recordMastery(step, submission)}
+                      onDiagnostic={(checkId, answers) => void recordDiagnostic(step, checkId, answers)}
+                    />;
+                  })}
+                </ol>
+              </>
             )}
             {currentPlan && <p className="plan-identity">Plan identity <code>{currentPlan.id}</code> · {project.planHistory.length} version(s) preserved</p>}
           </section>

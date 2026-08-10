@@ -40,6 +40,8 @@ for (const fixture of fixtures) {
 
     await page.getByTestId("build-path").click();
     await expect(page.getByTestId("journey-steps")).toContainText("Stage 1");
+    await expect(page.getByTestId("plan-summary")).toContainText("estimated hours");
+    await expect(page.getByTestId("horizon-summary")).toContainText("scheduled this week");
     await expect(page.getByText("Frontier ·", { exact: false }).first()).toBeVisible();
     await expect(page.getByText("supported", { exact: true }).first()).toBeVisible();
     await expect(page.getByTestId(`horizon-action-learn-${fixture.diagnosticCapabilityId}`)).toBeVisible();
@@ -81,6 +83,12 @@ test("project export, clear, and import restores browser state", async ({ page }
   const downloadPath = await download.path();
   expect(downloadPath).not.toBeNull();
 
+  page.once("dialog", (dialog) => void dialog.dismiss());
+  await page.getByRole("button", { name: "Clear" }).click();
+  await expect(page.getByRole("status")).toContainText("unchanged");
+  await expect(page.getByText("Plan identity", { exact: false })).toBeVisible();
+
+  page.once("dialog", (dialog) => void dialog.accept());
   await page.getByRole("button", { name: "Clear" }).click();
   await expect(page.getByRole("status")).toContainText("cleared");
   await page.getByLabel("Import").setInputFiles(downloadPath!);
@@ -97,6 +105,13 @@ test("semantic surfaces, named status, branches, keyboard use, and reduced motio
   await expect(page.getByText("Target · unseen")).toBeVisible();
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
 
+  const skipLink = page.getByRole("link", { name: "Skip to main content" });
+  await skipLink.focus();
+  await expect(skipLink).toBeFocused();
+  await skipLink.press("Enter");
+  await expect(page.locator("main")).toBeFocused();
+  await page.reload();
+
   for (let index = 0; index < 8; index += 1) {
     if (await page.getByTestId("domain-select").evaluate((element) => element === document.activeElement)) break;
     await page.keyboard.press("Tab");
@@ -106,6 +121,25 @@ test("semantic surfaces, named status, branches, keyboard use, and reduced motio
   await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
   await expect(page.getByText("Branches and contrasts")).toBeVisible();
   await expect(page.getByText("alternative-to")).toBeVisible();
+});
+
+test("phone layout has no horizontal overflow and keeps primary touch targets usable", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const dimensions = await page.locator("html").evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth,
+  }));
+  expect(dimensions.scrollWidth).toBe(dimensions.clientWidth);
+
+  for (const target of await page.locator(".wordmark, .check-option").all()) {
+    const box = await target.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+  }
+
+  await page.getByTestId("build-path").click();
+  await expect(page.locator("code")).toHaveCSS("color", "rgb(32, 37, 31)");
 });
 
 test("production surface exposes health and browser security policy", async ({ request }) => {

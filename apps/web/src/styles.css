@@ -22,11 +22,13 @@ a { color: var(--moss-dark); text-underline-offset: 0.2em; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid #cc7d43; outline-offset: 3px; }
 .file-button:focus-within { outline: 3px solid #cc7d43; outline-offset: 3px; }
+.skip-link { position: fixed; z-index: 10; top: 12px; left: 12px; padding: 10px 14px; background: var(--ink); color: white; border-radius: 4px; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
 
 .site-header, main, footer { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
 .site-header { min-height: 86px; display: flex; align-items: center; gap: 24px; border-bottom: 1px solid var(--line); }
 .site-header > p { color: var(--muted); flex: 1; }
-.wordmark { color: var(--ink); font-family: Georgia, serif; font-weight: 700; font-size: 1.35rem; text-decoration: none; }
+.wordmark { min-height: 44px; display: inline-flex; align-items: center; color: var(--ink); font-family: Georgia, serif; font-weight: 700; font-size: 1.35rem; text-decoration: none; }
 .project-actions { display: flex; align-items: center; gap: 8px; }
 
 button, .file-button { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 9px 14px; border-radius: 999px; cursor: pointer; }
@@ -47,7 +49,7 @@ select, input[type="number"], input[type="text"], textarea { width: 100%; border
 fieldset { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 4px; }
 fieldset legend { font-weight: 700; padding: 0 6px; }
 fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
-.check-option { display: flex; align-items: flex-start; gap: 9px; margin: 9px 0; font-weight: 450; }
+.check-option { min-height: 44px; display: flex; align-items: center; gap: 9px; padding: 7px 0; font-weight: 450; }
 .check-option input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--moss); }
 .notice { grid-column: 1 / -1; margin: 0; color: var(--moss-dark); min-height: 1.5em; }
 
@@ -79,6 +81,7 @@ fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
 .relationship-list small { grid-column: 1 / -1; color: var(--muted); }
 
 .stage-list, .now-list { list-style: none; padding: 0; margin: 0; }
+.plan-summary { margin: -12px 0 24px; color: var(--moss-dark) !important; font-weight: 700; }
 .stage-list > li { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 24px 0; border-top: 1px solid var(--line); }
 .stage-number { color: var(--clay); font-weight: 750; font-size: 0.82rem; text-transform: uppercase; }
 .stage-list article + article { margin-top: 24px; }
@@ -103,7 +106,7 @@ fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
 .attestation input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--moss); flex: 0 0 auto; }
 .success { color: var(--moss-dark) !important; font: 400 1.45rem/1.4 Georgia, serif; }
 .plan-identity { margin-top: 28px; font-size: 0.85rem; }
-code { font-size: 0.78rem; background: #e7e1d5; padding: 3px 5px; }
+code { color: var(--ink); font-size: 0.78rem; background: #e7e1d5; padding: 3px 5px; }
 footer { padding: 36px 0 60px; color: var(--muted); font-size: 0.9rem; }
 .loading { min-height: 100vh; display: grid; place-items: center; }
 

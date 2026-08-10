@@ -13,6 +13,7 @@ All notable changes to LearnAnything are documented in this file.
 - Unit, integration, accessibility, and end-to-end coverage for all three example domains.
 - Auditable artifact and evaluator references for non-diagnostic mastery evidence.
 - Production security headers, metadata, health endpoint, and GitHub Actions validation.
+- Responsive touch-target, skip-link, destructive-action confirmation, and contrast regression coverage.
 - MIT software and CC BY 4.0 knowledge/documentation licensing.
 
 ### Changed
@@ -21,6 +22,7 @@ All notable changes to LearnAnything are documented in this file.
 - Updated the learning-path schema and project migration support for action-oriented planning horizons.
 - Updated the architecture, learning model, build handoff, and setup documentation for the offline vertical slice.
 - Prepared the Vite app for Cloudflare Worker-compatible static delivery, routing the application shell through the Worker so production security headers apply to every navigation without adding an application backend.
+- Added concise path and weekly workload summaries, safer project clearing, and improved mobile and keyboard accessibility.
 
 ### Not included
 
