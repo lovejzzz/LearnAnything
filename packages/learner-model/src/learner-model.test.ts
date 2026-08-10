@@ -49,4 +49,21 @@ describe("learner model", () => {
     expect(learner.evidence).toEqual([]);
     expect(deriveCapabilityStatus(learner, "cap.test", { currentDate })).toBe("unseen");
   });
+
+  it("rejects independent performance claims without an artifact reference", () => {
+    const learner = createLearnerState("learner", currentDate);
+    expect(() => recordEvidence(learner, evidence({
+      evidenceType: "build",
+      evaluator: "self",
+    }), { currentDate })).toThrow("requires an artifact reference");
+  });
+
+  it("rejects peer claims without an evaluator reference", () => {
+    const learner = createLearnerState("learner", currentDate);
+    expect(() => recordEvidence(learner, evidence({
+      evidenceType: "analysis",
+      evaluator: "peer",
+      artifactRef: "essay.md",
+    }), { currentDate })).toThrow("peer evidence requires an evaluator reference");
+  });
 });

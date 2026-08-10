@@ -11,6 +11,12 @@ import { planLearningPath } from "@learn-anything/path-planner";
 
 export const PLANNER_VERSION = "0.2.0";
 
+export interface MasterySubmission {
+  artifactRef: string;
+  evaluatorRef?: string;
+  attested: boolean;
+}
+
 export function createProject(graph: KnowledgeGraph, recordedAt: string, hoursPerWeek = 6): LearningProject {
   return {
     schemaVersion: "0.1.0",
@@ -81,6 +87,7 @@ export function recordMasteryAndReplan(
   project: LearningProject,
   graph: KnowledgeGraph,
   step: PathStep,
+  submission: MasterySubmission,
   recordedAt: string,
 ): LearningProject {
   const checkId = step.masteryCheckIds[0];
@@ -88,14 +95,26 @@ export function recordMasteryAndReplan(
   const check = graph.nodes.find((node) => node.id === checkId);
   if (check?.mastery === undefined) throw new Error(`Mastery check ${checkId} is missing its contract.`);
   if (check.mastery.diagnostic !== undefined) throw new Error("Deterministic diagnostics must be evaluated from submitted answers.");
+  if (check.mastery.evaluation === "deterministic") throw new Error("Deterministic checks require a scored diagnostic contract.");
+  if (check.mastery.evaluation === "optional-ai") throw new Error("Optional AI evaluation is not available in the offline learning loop.");
+  const artifactRef = submission.artifactRef.trim();
+  const evaluatorRef = submission.evaluatorRef?.trim();
+  if (artifactRef.length === 0) throw new Error("Describe where the completed work can be found.");
+  if (!submission.attested) throw new Error("Confirm that the evidence instructions were completed before recording mastery.");
+  if ((check.mastery.evaluation === "peer" || check.mastery.evaluation === "expert") && !evaluatorRef) {
+    throw new Error(`Record the ${check.mastery.evaluation} evaluator before claiming independent mastery.`);
+  }
+  const confidence = check.mastery.evaluation === "expert" ? 0.95 : check.mastery.evaluation === "peer" ? 0.9 : 0.8;
   const evidence: EvidenceRecord = {
     id: `evidence.mastery.${safeId(step.capabilityId)}.${safeId(recordedAt)}`,
     capabilityId: step.capabilityId,
     evidenceType: check.mastery.evidenceType,
     evaluator: check.mastery.evaluation,
     result: "independent",
-    confidence: 0.9,
-    conditions: `Recorded against ${check.title}; learner confirmed the stated ${check.mastery.evaluation} evaluation occurred.`,
+    confidence,
+    conditions: `Recorded against ${check.title}; learner attested that the stated ${check.mastery.evaluation} evaluation and evidence instructions were completed.`,
+    artifactRef,
+    ...(evaluatorRef ? { evaluatorRef } : {}),
     recordedAt,
     graphVersion: graph.version,
     masteryCheckId: checkId,

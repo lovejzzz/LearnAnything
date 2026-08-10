@@ -5,7 +5,7 @@
   "title": "Philosophy Through Arguments",
   "description": "A compact architecture fixture for a domain with alternative routes, primary texts, contrasts, and legitimate disagreement.",
   "language": "en",
-  "license": "UNDECIDED",
+  "license": "CC-BY-4.0",
   "nodes": [
     {
       "id": "p.cap.reconstruct-argument",

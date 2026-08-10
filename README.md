@@ -2,6 +2,8 @@
 
 LearnAnything is an open, local-first learning system that maps a field, locates a learner inside it, and builds a mastery path from where they are to where they want to go.
 
+Public site: [learn-anything.skylab.chatgpt.site](https://learn-anything.skylab.chatgpt.site/)
+
 It is not a ten-lesson course generator. A path may last a week or several years. The complete map remains visible while the product presents only the learner's next useful horizon.
 
 ## Status
@@ -59,6 +61,6 @@ pnpm e2e
 
 The implementation uses TypeScript, React, Vite, pnpm workspaces, Vitest, and Playwright. The graph and planner are pure TypeScript packages with no React, storage, clock, random, or network dependency. The app composes those packages with static repository data and browser-local learner state.
 
-## License status
+## Licenses
 
-The code and knowledge licenses have not yet been selected. Do not ingest or redistribute third-party content until that decision is recorded. Source metadata and links may be added only with an explicit content-use and license record as defined in [docs/RESEARCHER.md](docs/RESEARCHER.md).
+Software source code and configuration are available under the [MIT License](LICENSE). Repository-authored documentation, schemas, example knowledge graphs, and visual assets are available under [CC BY 4.0](LICENSE-DATA.md). Linked third-party resources retain their original rights and are never relicensed by LearnAnything.

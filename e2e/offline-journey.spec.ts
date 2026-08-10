@@ -53,6 +53,12 @@ for (const fixture of fixtures) {
     for (const [index, capabilityId] of fixture.remainingCapabilities.entries()) {
       const masteryButton = page.getByTestId(`record-mastery-${capabilityId}`);
       await expect(masteryButton).toBeVisible();
+      await expect(masteryButton).toBeDisabled();
+      await page.getByTestId(`artifact-${capabilityId}`).fill(`local-artifacts/${capabilityId}.md`);
+      const evaluator = page.getByTestId(`evaluator-${capabilityId}`);
+      if (await evaluator.count()) await evaluator.fill(`review-note-${capabilityId}`);
+      await page.getByTestId(`attestation-${capabilityId}`).check();
+      await expect(masteryButton).toBeEnabled();
       await masteryButton.click();
       await expect(page.getByText(`${index + 3} version(s) preserved`)).toBeVisible();
     }
@@ -100,4 +106,16 @@ test("semantic surfaces, named status, branches, keyboard use, and reduced motio
   await expect(page.getByTestId("domain-select")).toHaveValue("philosophy-argument-paths");
   await expect(page.getByText("Branches and contrasts")).toBeVisible();
   await expect(page.getByText("alternative-to")).toBeVisible();
+});
+
+test("production surface exposes health and browser security policy", async ({ request }) => {
+  const health = await request.get("/health");
+  expect(health.ok()).toBe(true);
+  await expect(health.json()).resolves.toEqual({ status: "ok", service: "learn-anything" });
+
+  const home = await request.get("/");
+  expect(home.ok()).toBe(true);
+  expect(home.headers()["content-security-policy"]).toContain("default-src 'self'");
+  expect(home.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(home.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
 });

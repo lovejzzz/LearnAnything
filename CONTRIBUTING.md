@@ -1,6 +1,6 @@
 # Contributing
 
-LearnAnything welcomes contributions to code, knowledge maps, resources, translations, accessibility, and learning design. The repository is still establishing its code and knowledge licenses, so do not submit copied or adapted third-party content yet.
+LearnAnything welcomes contributions to code, knowledge maps, resources, translations, accessibility, and learning design. Code contributions are accepted under MIT; repository-authored knowledge and documentation contributions are accepted under CC BY 4.0. Do not submit third-party content unless its license and permitted use are explicit and compatible.
 
 ## Knowledge contributions
 

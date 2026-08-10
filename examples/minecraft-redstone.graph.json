@@ -5,7 +5,7 @@
   "title": "Minecraft Redstone Engineering",
   "description": "A compact architecture fixture for version-sensitive practical knowledge demonstrated through functioning builds and debugging.",
   "language": "en",
-  "license": "UNDECIDED",
+  "license": "CC-BY-4.0",
   "nodes": [
     {
       "id": "m.cap.power-components",

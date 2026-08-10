@@ -7,7 +7,14 @@ import { appendActivity, ProjectStore } from "@learn-anything/project-store";
 import { domainById, domains } from "./domain-data";
 import { IndexedDbStorage } from "./indexed-db-storage";
 import { DiagnosticForm } from "./DiagnosticForm";
-import { buildPlan, createProject, recordDiagnosticAndReplan, recordMasteryAndReplan } from "./project-actions";
+import { EvidenceForm } from "./EvidenceForm";
+import {
+  buildPlan,
+  createProject,
+  recordDiagnosticAndReplan,
+  recordMasteryAndReplan,
+  type MasterySubmission,
+} from "./project-actions";
 
 const store = new ProjectStore(new IndexedDbStorage());
 
@@ -97,11 +104,11 @@ export function App() {
     }
   }
 
-  async function recordMastery(step: PathStep) {
+  async function recordMastery(step: PathStep, submission: MasterySubmission) {
     if (project === undefined) return;
     setBusy(true);
     try {
-      const next = recordMasteryAndReplan(project, graph, step, timestamp());
+      const next = recordMasteryAndReplan(project, graph, step, submission, timestamp());
       await persist(next, "Mastery evidence recorded. The path was replanned without changing its history.");
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Could not record mastery.");
@@ -310,7 +317,7 @@ export function App() {
                     actionNode={index.nodes.get(item.nodeId)}
                     busy={busy}
                     onResourceOpen={(resourceId) => void recordResourceOpen(resourceId)}
-                    onMastery={() => void recordMastery(step)}
+                    onMastery={(submission) => void recordMastery(step, submission)}
                     onDiagnostic={(checkId, answers) => void recordDiagnostic(step, checkId, answers)}
                   />;
                 })}
@@ -349,7 +356,7 @@ function HorizonItemView({
   actionNode: GraphNode | undefined;
   busy: boolean;
   onResourceOpen: (resourceId: string) => void;
-  onMastery: () => void;
+  onMastery: (submission: MasterySubmission) => void;
   onDiagnostic: (checkId: string, answers: DiagnosticAnswers) => void;
 }) {
   return (
@@ -373,9 +380,12 @@ function HorizonItemView({
           {actionNode.mastery.diagnostic ? (
             <DiagnosticForm check={actionNode} capabilityId={step.capabilityId} busy={busy} onSubmit={(answers) => onDiagnostic(actionNode.id, answers)} />
           ) : (
-            <button data-testid={`record-mastery-${step.capabilityId}`} type="button" className="primary" disabled={busy} onClick={onMastery}>
-              Record independent result & replan
-            </button>
+            <EvidenceForm
+              capabilityId={step.capabilityId}
+              evaluation={actionNode.mastery.evaluation}
+              busy={busy}
+              onSubmit={onMastery}
+            />
           )}
         </div>
       )}

@@ -124,6 +124,7 @@ export interface EvidenceRecord {
   confidence: number;
   conditions: string;
   artifactRef?: string;
+  evaluatorRef?: string;
   recordedAt: string;
   graphVersion: string;
   masteryCheckId: string;

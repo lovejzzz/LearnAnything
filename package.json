@@ -1,6 +1,6 @@
 {
   "name": "learn-anything",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "A local-first knowledge map and adaptive mastery-path system.",
   "type": "module",

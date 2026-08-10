@@ -16,7 +16,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; }
-button, input, select { font: inherit; }
+button, input, select, textarea { font: inherit; }
 button, select, input[type="number"], .file-button { min-height: 44px; }
 a { color: var(--moss-dark); text-underline-offset: 0.2em; }
 a:hover { text-decoration-thickness: 2px; }
@@ -43,7 +43,7 @@ button:disabled { opacity: 0.55; cursor: wait; }
 .eyebrow { color: var(--clay); font-size: 0.76rem; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
 form { display: grid; gap: 18px; align-content: start; }
 form > label { display: grid; gap: 7px; font-weight: 650; }
-select, input[type="number"] { width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--paper); color: var(--ink); }
+select, input[type="number"], input[type="text"], textarea { width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--paper); color: var(--ink); }
 fieldset { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 4px; }
 fieldset legend { font-weight: 700; padding: 0 6px; }
 fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
@@ -97,6 +97,10 @@ fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
 .diagnostic { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
 .diagnostic > p { margin: 0; }
 .diagnostic fieldset { background: #fffdf8; }
+.evidence-form { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+.evidence-form > label:not(.attestation) { display: grid; gap: 7px; font-weight: 650; }
+.attestation { display: flex; align-items: flex-start; gap: 9px; font-weight: 450; }
+.attestation input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--moss); flex: 0 0 auto; }
 .success { color: var(--moss-dark) !important; font: 400 1.45rem/1.4 Georgia, serif; }
 .plan-identity { margin-top: 28px; font-size: 0.85rem; }
 code { font-size: 0.78rem; background: #e7e1d5; padding: 3px 5px; }

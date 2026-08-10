@@ -74,6 +74,18 @@ export function recordEvidence(
   policy: StatusPolicy,
 ): LearnerState {
   if (evidence.confidence < 0 || evidence.confidence > 1) throw new Error("Evidence confidence must be between 0 and 1");
+  if (evidence.result === "independent" && evidence.evidenceType !== "diagnostic" && evidence.artifactRef?.trim() === "") {
+    throw new Error("Independent performance evidence requires an artifact reference");
+  }
+  if (evidence.result === "independent" && evidence.evidenceType !== "diagnostic" && evidence.artifactRef === undefined) {
+    throw new Error("Independent performance evidence requires an artifact reference");
+  }
+  if ((evidence.evaluator === "peer" || evidence.evaluator === "expert") && evidence.evaluatorRef?.trim() === "") {
+    throw new Error(`${evidence.evaluator} evidence requires an evaluator reference`);
+  }
+  if ((evidence.evaluator === "peer" || evidence.evaluator === "expert") && evidence.evaluatorRef === undefined) {
+    throw new Error(`${evidence.evaluator} evidence requires an evaluator reference`);
+  }
   if (learnerState.evidence.some((record) => record.id === evidence.id)) throw new Error(`Evidence id already exists: ${evidence.id}`);
 
   const withEvidence: LearnerState = {

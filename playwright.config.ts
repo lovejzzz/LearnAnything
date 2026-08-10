@@ -11,9 +11,11 @@ export default defineConfig({
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
-    command: "pnpm --filter @learn-anything/web dev --host 127.0.0.1 --port 43117 --strictPort",
+    command: "pnpm build && pnpm --filter @learn-anything/web preview --host 127.0.0.1 --port 43117 --strictPort",
     url: "http://127.0.0.1:43117",
     reuseExistingServer: false,
     timeout: 30_000,

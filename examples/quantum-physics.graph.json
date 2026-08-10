@@ -5,7 +5,7 @@
   "title": "Quantum Physics Foundations",
   "description": "A compact architecture fixture for a prerequisite-heavy mathematical and conceptual domain.",
   "language": "en",
-  "license": "UNDECIDED",
+  "license": "CC-BY-4.0",
   "nodes": [
     {
       "id": "q.cap.probability-models",

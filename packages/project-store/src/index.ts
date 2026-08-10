@@ -77,7 +77,8 @@ function isLearnerState(value: unknown): value is LearnerState {
     evidenceTypes.has(String(item.evidenceType)) && evaluators.has(String(item.evaluator)) &&
     results.has(String(item.result)) && typeof item.confidence === "number" &&
     item.confidence >= 0 && item.confidence <= 1 && typeof item.conditions === "string" &&
-    (item.artifactRef === undefined || typeof item.artifactRef === "string") && isIsoDate(item.recordedAt) &&
+    (item.artifactRef === undefined || typeof item.artifactRef === "string") &&
+    (item.evaluatorRef === undefined || typeof item.evaluatorRef === "string") && isIsoDate(item.recordedAt) &&
     typeof item.graphVersion === "string" && typeof item.masteryCheckId === "string");
 }
 
