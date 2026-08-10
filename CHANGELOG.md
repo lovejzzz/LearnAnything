@@ -14,6 +14,7 @@ All notable changes to LearnAnything are documented in this file.
 - Auditable artifact and evaluator references for non-diagnostic mastery evidence.
 - Production security headers, metadata, health endpoint, and GitHub Actions validation.
 - Responsive touch-target, skip-link, destructive-action confirmation, and contrast regression coverage.
+- Branded browser icon metadata using the production social image.
 - MIT software and CC BY 4.0 knowledge/documentation licensing.
 
 ### Changed

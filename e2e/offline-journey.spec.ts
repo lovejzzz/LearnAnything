@@ -149,7 +149,12 @@ test("production surface exposes health and browser security policy", async ({ r
 
   const home = await request.get("/");
   expect(home.ok()).toBe(true);
+  expect(await home.text()).toContain('<link rel="icon" href="/og.png" type="image/png"');
   expect(home.headers()["content-security-policy"]).toContain("default-src 'self'");
   expect(home.headers()["x-content-type-options"]).toBe("nosniff");
   expect(home.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+
+  const icon = await request.get("/og.png");
+  expect(icon.ok()).toBe(true);
+  expect(icon.headers()["content-type"]).toBe("image/png");
 });
