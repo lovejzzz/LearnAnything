@@ -2,6 +2,12 @@
 
 All notable changes to LearnAnything are documented in this file.
 
+## 0.3.1 - 2026-08-10
+
+### Changed
+
+- Replaced the placeholder `UNDECIDED` license identifier on the repository-authored `repo.foundation` source record in all three domain graphs with the decided CC BY 4.0 terms from ADR 0002, matching `LICENSE-DATA.md`. Knowledge content is unchanged, so graph versions and learner evidence remain valid.
+
 ## 0.3.0 - 2026-08-10
 
 ### Added
