@@ -47,6 +47,7 @@ button:disabled { opacity: 0.55; cursor: wait; }
 form { display: grid; gap: 18px; align-content: start; }
 form > label { display: grid; gap: 7px; font-weight: 650; }
 select, input[type="number"], input[type="text"], textarea { min-width: 0; max-width: 100%; width: 100%; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: var(--paper); color: var(--ink); }
+select { appearance: none; overflow: hidden; padding-right: 34px; text-overflow: ellipsis; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%; background-repeat: no-repeat; background-size: 5px 5px; }
 fieldset { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 4px; }
 fieldset legend { font-weight: 700; padding: 0 6px; }
 fieldset > p { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
