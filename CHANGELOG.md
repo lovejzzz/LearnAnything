@@ -20,7 +20,7 @@ All notable changes to LearnAnything are documented in this file.
 - Expanded the example graphs to provide complete learn-practice-demonstrate loops for every capability.
 - Updated the learning-path schema and project migration support for action-oriented planning horizons.
 - Updated the architecture, learning model, build handoff, and setup documentation for the offline vertical slice.
-- Prepared the Vite app for Cloudflare Worker-compatible static delivery without adding an application backend.
+- Prepared the Vite app for Cloudflare Worker-compatible static delivery, routing the application shell through the Worker so production security headers apply to every navigation without adding an application backend.
 
 ### Not included
 

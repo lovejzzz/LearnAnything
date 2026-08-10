@@ -21,7 +21,11 @@ export default {
         headers: { "cache-control": "no-store" },
       });
     }
-    const response = await environment.ASSETS.fetch(request);
+    const acceptsHtml = request.headers.get("accept")?.includes("text/html") ?? false;
+    const assetRequest = url.pathname === "/" || acceptsHtml
+      ? new Request(new URL("/app.html", request.url), request)
+      : request;
+    const response = await environment.ASSETS.fetch(assetRequest);
     const headers = new Headers(response.headers);
     for (const [name, value] of Object.entries(SECURITY_HEADERS)) headers.set(name, value);
     return new Response(response.body, {

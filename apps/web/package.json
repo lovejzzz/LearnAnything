@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "node ../../scripts/clean-web-dist.mjs",
     "build": "vite build",
+    "postbuild": "node ../../scripts/finalize-web-dist.mjs",
     "dev": "vite",
     "preview": "vite preview"
   },
