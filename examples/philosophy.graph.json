@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "philosophy-argument-paths",
+  "version": "0.1.0",
+  "title": "Philosophy Through Arguments",
+  "description": "A compact architecture fixture for a domain with alternative routes, primary texts, contrasts, and legitimate disagreement.",
+  "language": "en",
+  "license": "UNDECIDED",
+  "nodes": [
+    {
+      "id": "p.cap.reconstruct-argument",
+      "kind": "capability",
+      "title": "Reconstruct an argument charitably",
+      "summary": "Identify premises, conclusion, implicit assumptions, and the strongest plausible form of an argument.",
+      "depth": "foundation",
+      "estimatedHours": 5,
+      "sourceRefs": ["p.source.iep-argument"],
+      "tags": ["argumentation", "logic"]
+    },
+    {
+      "id": "p.cap.read-primary-text",
+      "kind": "capability",
+      "title": "Interpret a philosophical primary text",
+      "summary": "Locate a claim in its textual and historical context while distinguishing quotation, interpretation, and evaluation.",
+      "depth": "foundation",
+      "estimatedHours": 6,
+      "sourceRefs": ["p.source.sep"],
+      "tags": ["primary-text", "interpretation"]
+    },
+    {
+      "id": "p.cap.compare-positions",
+      "kind": "capability",
+      "title": "Compare competing philosophical positions",
+      "summary": "Compare positions by their claims, reasons, objections, assumptions, and consequences without collapsing disagreement into preference.",
+      "depth": "working",
+      "estimatedHours": 8,
+      "sourceRefs": ["p.source.sep", "p.source.iep-argument"],
+      "tags": ["comparison", "objections"]
+    },
+    {
+      "id": "p.cap.defend-revision",
+      "kind": "capability",
+      "title": "Defend and revise a philosophical position",
+      "summary": "Offer a reasoned position, answer a strong objection, and revise the claim when the objection exposes a real limitation.",
+      "depth": "working",
+      "estimatedHours": 7,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["dialectic", "revision"]
+    },
+    {
+      "id": "p.resource.sep",
+      "kind": "resource",
+      "title": "Stanford Encyclopedia of Philosophy",
+      "summary": "A scholarly reference candidate for mapping positions, context, and bibliographies.",
+      "depth": "working",
+      "estimatedHours": 0,
+      "sourceRefs": ["p.source.sep"],
+      "resource": {
+        "url": "https://plato.stanford.edu/",
+        "format": "article",
+        "access": "free"
+      }
+    },
+    {
+      "id": "p.experience.position-dialogue",
+      "kind": "experience",
+      "title": "Argument, objection, and revision dialogue",
+      "summary": "Write alternating rounds for a position and its strongest objection, then identify what changes after each round.",
+      "depth": "working",
+      "estimatedHours": 2,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["writing", "dialogue"]
+    },
+    {
+      "id": "p.check.comparative-essay",
+      "kind": "mastery-check",
+      "title": "Comparative argument analysis",
+      "summary": "A source-visible analysis of two competing positions and a defended revision.",
+      "depth": "working",
+      "estimatedHours": 3,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "analysis",
+        "instructions": "Reconstruct two competing positions from primary or scholarly sources, state the strongest objection to each, and defend a revision while separating textual evidence from your evaluation.",
+        "evaluation": "peer"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "p.cap.reconstruct-argument",
+      "to": "p.cap.compare-positions",
+      "relation": "requires",
+      "rationale": "A comparison depends on representing each argument accurately before evaluating differences.",
+      "sourceRefs": ["p.source.iep-argument"]
+    },
+    {
+      "from": "p.cap.read-primary-text",
+      "to": "p.cap.compare-positions",
+      "relation": "supports",
+      "rationale": "Primary-text interpretation strengthens comparison but some orientation routes can begin with reliable secondary sources.",
+      "sourceRefs": ["p.source.sep"]
+    },
+    {
+      "from": "p.cap.compare-positions",
+      "to": "p.cap.defend-revision",
+      "relation": "requires",
+      "rationale": "Revision requires understanding live alternatives and objections rather than defending an isolated opinion.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.cap.read-primary-text",
+      "to": "p.resource.sep",
+      "relation": "alternative-to",
+      "rationale": "A pathway may orient through a scholarly overview before or alongside direct primary-text study; neither substitutes universally for the other.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.resource.sep",
+      "to": "p.cap.compare-positions",
+      "relation": "supports",
+      "rationale": "Scholarly entries expose competing interpretations and bibliographies.",
+      "sourceRefs": ["p.source.sep"]
+    },
+    {
+      "from": "p.experience.position-dialogue",
+      "to": "p.cap.defend-revision",
+      "relation": "teaches",
+      "rationale": "Alternating argument and objection makes revision visible as a capability.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.check.comparative-essay",
+      "to": "p.cap.compare-positions",
+      "relation": "assesses",
+      "rationale": "The artifact requires accurate reconstruction and comparison.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "p.check.comparative-essay",
+      "to": "p.cap.defend-revision",
+      "relation": "assesses",
+      "rationale": "The artifact includes a defended revision responsive to objections.",
+      "sourceRefs": ["repo.foundation"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "p.source.sep",
+      "title": "Stanford Encyclopedia of Philosophy",
+      "url": "https://plato.stanford.edu/",
+      "publisher": "Metaphysics Research Lab, Stanford University",
+      "sourceType": "scholarly",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "high",
+      "contentUse": "link-only",
+      "license": {
+        "status": "restricted",
+        "identifier": "SITE-TERMS",
+        "attributionRequired": true,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Link and minimal metadata only until exact entry terms are reviewed."
+      }
+    },
+    {
+      "id": "p.source.iep-argument",
+      "title": "Internet Encyclopedia of Philosophy",
+      "url": "https://iep.utm.edu/",
+      "publisher": "Internet Encyclopedia of Philosophy",
+      "sourceType": "scholarly",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "high",
+      "contentUse": "link-only",
+      "license": {
+        "status": "unknown",
+        "identifier": "",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Link-only until exact terms are reviewed."
+      }
+    },
+    {
+      "id": "repo.foundation",
+      "title": "LearnAnything foundation",
+      "url": "https://github.com/lovejzzz/LearnAnything",
+      "publisher": "LearnAnything contributors",
+      "sourceType": "repository-authored",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "contextual",
+      "contentUse": "repository-authored",
+      "license": {
+        "status": "repository-owned",
+        "identifier": "UNDECIDED",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Code and knowledge licenses must be selected before public reuse claims."
+      }
+    }
+  ]
+}

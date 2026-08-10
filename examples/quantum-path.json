@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "example.quantum.two-path",
+  "plannerVersion": "0.1.0",
+  "graphId": "quantum-physics-foundations",
+  "graphVersion": "0.1.0",
+  "learnerStateId": "example-local-learner",
+  "goal": {
+    "description": "Explain a two-path interference experiment using probability amplitudes.",
+    "targetCapabilityIds": ["q.cap.two-path-interference"],
+    "desiredDepth": "working",
+    "purpose": "Build a rigorous conceptual foundation before formal quantum mechanics.",
+    "hoursPerWeek": 6
+  },
+  "generatedAt": "2026-08-09T12:00:00.000Z",
+  "steps": [
+    {
+      "capabilityId": "q.cap.wave-behavior",
+      "stage": 1,
+      "estimatedHours": 5,
+      "reason": "Required by the target and not yet demonstrated independently.",
+      "prerequisiteIds": [],
+      "resourceIds": [],
+      "masteryCheckIds": []
+    },
+    {
+      "capabilityId": "q.cap.complex-amplitudes",
+      "stage": 2,
+      "estimatedHours": 8,
+      "reason": "Required by the target; its probability prerequisite is already demonstrated.",
+      "prerequisiteIds": ["q.cap.probability-models"],
+      "resourceIds": ["q.resource.openstax"],
+      "masteryCheckIds": []
+    },
+    {
+      "capabilityId": "q.cap.two-path-interference",
+      "stage": 3,
+      "estimatedHours": 7,
+      "reason": "This is the learner's approved target capability.",
+      "prerequisiteIds": ["q.cap.wave-behavior", "q.cap.complex-amplitudes"],
+      "resourceIds": ["q.resource.phet"],
+      "masteryCheckIds": ["q.check.interference-explanation"]
+    }
+  ],
+  "horizon": {
+    "days": 7,
+    "budgetHours": 6,
+    "capabilityIds": ["q.cap.wave-behavior"]
+  },
+  "blockedTargets": []
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "example-local-learner",
+  "createdAt": "2026-08-09T12:00:00.000Z",
+  "updatedAt": "2026-08-09T12:00:00.000Z",
+  "preferences": {
+    "hoursPerWeek": 6,
+    "language": "en",
+    "reducedMotion": false
+  },
+  "capabilities": [
+    {
+      "capabilityId": "q.cap.probability-models",
+      "status": "independent",
+      "updatedAt": "2026-08-09T12:00:00.000Z"
+    },
+    {
+      "capabilityId": "q.cap.wave-behavior",
+      "status": "exploring",
+      "updatedAt": "2026-08-09T12:00:00.000Z"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence.probability-diagnostic",
+      "capabilityId": "q.cap.probability-models",
+      "evidenceType": "diagnostic",
+      "evaluator": "deterministic",
+      "result": "independent",
+      "confidence": 0.85,
+      "conditions": "Completed without hints in the example diagnostic.",
+      "recordedAt": "2026-08-09T12:00:00.000Z",
+      "graphVersion": "0.1.0",
+      "masteryCheckId": "example.diagnostic.probability"
+    }
+  ]
+}

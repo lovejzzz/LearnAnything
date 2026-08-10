@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnanything.dev/schemas/learner-state.schema.json",
+  "title": "LearnAnything Learner State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "createdAt", "updatedAt", "preferences", "capabilities", "evidence"],
+  "properties": {
+    "schemaVersion": { "const": "0.1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hoursPerWeek", "language", "reducedMotion"],
+      "properties": {
+        "hoursPerWeek": { "type": "number", "exclusiveMinimum": 0 },
+        "language": { "type": "string", "minLength": 2 },
+        "reducedMotion": { "type": "boolean" }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["capabilityId", "status", "updatedAt"],
+        "properties": {
+          "capabilityId": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["unseen", "exploring", "supported", "independent", "transfer", "stale"] },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "capabilityId", "evidenceType", "evaluator", "result", "confidence", "conditions", "recordedAt", "graphVersion", "masteryCheckId"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "capabilityId": { "type": "string", "minLength": 1 },
+          "evidenceType": { "enum": ["explanation", "solution", "analysis", "build", "performance", "project", "reflection", "diagnostic"] },
+          "evaluator": { "enum": ["self", "deterministic", "peer", "expert", "optional-ai"] },
+          "result": { "enum": ["insufficient", "supported", "independent", "transfer"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "conditions": { "type": "string" },
+          "artifactRef": { "type": "string" },
+          "recordedAt": { "type": "string", "format": "date-time" },
+          "graphVersion": { "type": "string", "minLength": 1 },
+          "masteryCheckId": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "quantum-physics-foundations",
+  "version": "0.1.0",
+  "title": "Quantum Physics Foundations",
+  "description": "A compact architecture fixture for a prerequisite-heavy mathematical and conceptual domain.",
+  "language": "en",
+  "license": "UNDECIDED",
+  "nodes": [
+    {
+      "id": "q.cap.probability-models",
+      "kind": "capability",
+      "title": "Reason with probability models",
+      "summary": "Represent mutually exclusive outcomes, calculate probabilities, and distinguish a probability model from an observed result.",
+      "depth": "foundation",
+      "estimatedHours": 4,
+      "sourceRefs": ["q.source.openstax"],
+      "tags": ["mathematics", "probability"]
+    },
+    {
+      "id": "q.cap.wave-behavior",
+      "kind": "capability",
+      "title": "Analyze basic wave behavior",
+      "summary": "Use wavelength, frequency, phase, and superposition to explain representative wave behavior.",
+      "depth": "foundation",
+      "estimatedHours": 5,
+      "sourceRefs": ["q.source.openstax"],
+      "tags": ["waves", "superposition"]
+    },
+    {
+      "id": "q.cap.complex-amplitudes",
+      "kind": "capability",
+      "title": "Combine complex probability amplitudes",
+      "summary": "Represent simple amplitudes with complex numbers and connect amplitude magnitude to outcome probability.",
+      "depth": "working",
+      "estimatedHours": 8,
+      "sourceRefs": ["q.source.openstax"],
+      "tags": ["complex-numbers", "amplitudes"]
+    },
+    {
+      "id": "q.cap.two-path-interference",
+      "kind": "capability",
+      "title": "Explain a two-path interference experiment",
+      "summary": "Predict and explain how alternative paths combine, when interference appears, and how measurement changes the prediction.",
+      "depth": "working",
+      "estimatedHours": 7,
+      "sourceRefs": ["q.source.openstax", "q.source.phet"],
+      "tags": ["interference", "measurement"]
+    },
+    {
+      "id": "q.resource.openstax",
+      "kind": "resource",
+      "title": "OpenStax University Physics Volume 3",
+      "summary": "A free university-level physics reference linked for quantum foundations and further study.",
+      "depth": "foundation",
+      "estimatedHours": 0,
+      "sourceRefs": ["q.source.openstax"],
+      "resource": {
+        "url": "https://openstax.org/details/books/university-physics-volume-3",
+        "format": "book",
+        "access": "free"
+      }
+    },
+    {
+      "id": "q.resource.phet",
+      "kind": "resource",
+      "title": "PhET Quantum Wave Interference",
+      "summary": "An interactive simulation candidate for exploring interference behavior.",
+      "depth": "working",
+      "estimatedHours": 0,
+      "sourceRefs": ["q.source.phet"],
+      "resource": {
+        "url": "https://phet.colorado.edu/en/simulations/quantum-wave-interference",
+        "format": "simulation",
+        "access": "free",
+        "durationMinutes": 45
+      }
+    },
+    {
+      "id": "q.check.interference-explanation",
+      "kind": "mastery-check",
+      "title": "Predict and explain an interference change",
+      "summary": "A transfer-oriented explanation check for the target capability.",
+      "depth": "working",
+      "estimatedHours": 1,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "explanation",
+        "instructions": "Given a two-path setup, predict how the observed pattern changes when path information becomes available. Explain the result using amplitudes rather than only naming the effect.",
+        "evaluation": "self"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "q.cap.probability-models",
+      "to": "q.cap.complex-amplitudes",
+      "relation": "requires",
+      "rationale": "Outcome probabilities are needed before connecting amplitudes to observed distributions.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.cap.wave-behavior",
+      "to": "q.cap.two-path-interference",
+      "relation": "requires",
+      "rationale": "Superposition and phase provide the physical foundation for interpreting an interference pattern.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.cap.complex-amplitudes",
+      "to": "q.cap.two-path-interference",
+      "relation": "requires",
+      "rationale": "The target explanation combines amplitudes for alternative paths before calculating probabilities.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.resource.openstax",
+      "to": "q.cap.complex-amplitudes",
+      "relation": "supports",
+      "rationale": "The linked text provides formal background and worked context.",
+      "sourceRefs": ["q.source.openstax"]
+    },
+    {
+      "from": "q.resource.phet",
+      "to": "q.cap.two-path-interference",
+      "relation": "supports",
+      "rationale": "The simulation makes changes in path and observation conditions visible.",
+      "sourceRefs": ["q.source.phet"]
+    },
+    {
+      "from": "q.check.interference-explanation",
+      "to": "q.cap.two-path-interference",
+      "relation": "assesses",
+      "rationale": "The learner must predict and explain a changed condition, not merely recognize terminology.",
+      "sourceRefs": ["repo.foundation"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "q.source.openstax",
+      "title": "University Physics Volume 3",
+      "url": "https://openstax.org/details/books/university-physics-volume-3",
+      "publisher": "OpenStax, Rice University",
+      "sourceType": "open-education",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "high",
+      "contentUse": "link-only",
+      "license": {
+        "status": "verified",
+        "identifier": "CC-BY-4.0",
+        "attributionRequired": true,
+        "redistributionAllowed": true,
+        "derivativesAllowed": true,
+        "notes": "Foundation stores only a link and identifying metadata. Recheck edition-specific terms before retaining content."
+      }
+    },
+    {
+      "id": "q.source.phet",
+      "title": "Quantum Wave Interference",
+      "url": "https://phet.colorado.edu/en/simulations/quantum-wave-interference",
+      "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+      "sourceType": "open-education",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "high",
+      "contentUse": "link-only",
+      "license": {
+        "status": "unknown",
+        "identifier": "",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Link-only until the exact simulation license and embed terms are reviewed."
+      }
+    },
+    {
+      "id": "repo.foundation",
+      "title": "LearnAnything foundation",
+      "url": "https://github.com/lovejzzz/LearnAnything",
+      "publisher": "LearnAnything contributors",
+      "sourceType": "repository-authored",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "contextual",
+      "contentUse": "repository-authored",
+      "license": {
+        "status": "repository-owned",
+        "identifier": "UNDECIDED",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Code and knowledge licenses must be selected before public reuse claims."
+      }
+    }
+  ]
+}

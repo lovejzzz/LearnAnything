@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "minecraft-redstone-engineering",
+  "version": "0.1.0",
+  "title": "Minecraft Redstone Engineering",
+  "description": "A compact architecture fixture for version-sensitive practical knowledge demonstrated through functioning builds and debugging.",
+  "language": "en",
+  "license": "UNDECIDED",
+  "nodes": [
+    {
+      "id": "m.cap.power-components",
+      "kind": "capability",
+      "title": "Predict basic Redstone power behavior",
+      "summary": "Predict how power reaches dust and common components while stating the game edition and version assumptions.",
+      "depth": "foundation",
+      "estimatedHours": 3,
+      "sourceRefs": ["m.source.wiki"],
+      "tags": ["redstone", "version-sensitive"]
+    },
+    {
+      "id": "m.cap.timing",
+      "kind": "capability",
+      "title": "Control signal timing",
+      "summary": "Use repeaters and pulse behavior to delay, extend, shorten, and synchronize representative signals.",
+      "depth": "foundation",
+      "estimatedHours": 5,
+      "sourceRefs": ["m.source.wiki"],
+      "tags": ["timing", "repeaters"]
+    },
+    {
+      "id": "m.cap.logic-circuits",
+      "kind": "capability",
+      "title": "Build and explain Redstone logic circuits",
+      "summary": "Construct basic logical operations and explain the relationship between inputs, outputs, and component behavior.",
+      "depth": "working",
+      "estimatedHours": 7,
+      "sourceRefs": ["m.source.wiki"],
+      "tags": ["logic", "circuits"]
+    },
+    {
+      "id": "m.cap.debug-build",
+      "kind": "capability",
+      "title": "Debug a version-scoped Redstone build",
+      "summary": "Trace a failed build, isolate the first incorrect state, test a hypothesis, and repair it without replacing the whole design.",
+      "depth": "working",
+      "estimatedHours": 6,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["debugging", "transfer"]
+    },
+    {
+      "id": "m.resource.wiki",
+      "kind": "resource",
+      "title": "Minecraft Wiki Redstone circuits",
+      "summary": "A community-maintained reference candidate for components, circuits, and edition-specific behavior.",
+      "depth": "foundation",
+      "estimatedHours": 0,
+      "sourceRefs": ["m.source.wiki"],
+      "resource": {
+        "url": "https://minecraft.wiki/w/Redstone_circuits",
+        "format": "documentation",
+        "access": "free"
+      }
+    },
+    {
+      "id": "m.experience.logic-build",
+      "kind": "experience",
+      "title": "Build, label, and perturb a logic circuit",
+      "summary": "Construct a circuit, label its states, deliberately introduce one fault, and trace the resulting behavior.",
+      "depth": "working",
+      "estimatedHours": 2,
+      "sourceRefs": ["repo.foundation"],
+      "tags": ["build", "debugging"]
+    },
+    {
+      "id": "m.check.debugging-record",
+      "kind": "mastery-check",
+      "title": "Redstone debugging record",
+      "summary": "Evidence from a functioning build and a traceable repair process.",
+      "depth": "working",
+      "estimatedHours": 2,
+      "sourceRefs": ["repo.foundation"],
+      "mastery": {
+        "evidenceType": "build",
+        "instructions": "Submit a working version-scoped circuit plus a concise trace of one deliberately introduced failure: observed state, first incorrect component, hypothesis, test, and repair.",
+        "evaluation": "peer"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "m.cap.power-components",
+      "to": "m.cap.timing",
+      "relation": "requires",
+      "rationale": "Timing control depends on predicting ordinary power and component behavior.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.cap.timing",
+      "to": "m.cap.logic-circuits",
+      "relation": "requires",
+      "rationale": "Practical logic circuits depend on stable signal timing as well as logical state.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.cap.logic-circuits",
+      "to": "m.cap.debug-build",
+      "relation": "requires",
+      "rationale": "Debugging requires a correct behavioral model of the circuit being traced.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.resource.wiki",
+      "to": "m.cap.power-components",
+      "relation": "supports",
+      "rationale": "The wiki documents component and edition-specific behavior.",
+      "sourceRefs": ["m.source.wiki"]
+    },
+    {
+      "from": "m.experience.logic-build",
+      "to": "m.cap.logic-circuits",
+      "relation": "teaches",
+      "rationale": "Construction and state labeling connect logical descriptions to game behavior.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.experience.logic-build",
+      "to": "m.cap.debug-build",
+      "relation": "teaches",
+      "rationale": "Deliberate perturbation produces a bounded debugging experience.",
+      "sourceRefs": ["repo.foundation"]
+    },
+    {
+      "from": "m.check.debugging-record",
+      "to": "m.cap.debug-build",
+      "relation": "assesses",
+      "rationale": "The artifact demonstrates both a functioning repair and the reasoning that produced it.",
+      "sourceRefs": ["repo.foundation"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "m.source.wiki",
+      "title": "Redstone circuits",
+      "url": "https://minecraft.wiki/w/Redstone_circuits",
+      "publisher": "Minecraft Wiki community",
+      "sourceType": "community",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "contextual",
+      "contentUse": "link-only",
+      "license": {
+        "status": "unknown",
+        "identifier": "",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Link-only until exact page license, attribution, trademark, and reuse terms are reviewed. Version and edition must be retained with factual claims."
+      }
+    },
+    {
+      "id": "repo.foundation",
+      "title": "LearnAnything foundation",
+      "url": "https://github.com/lovejzzz/LearnAnything",
+      "publisher": "LearnAnything contributors",
+      "sourceType": "repository-authored",
+      "retrievedAt": "2026-08-09T12:00:00.000Z",
+      "authorityTier": "contextual",
+      "contentUse": "repository-authored",
+      "license": {
+        "status": "repository-owned",
+        "identifier": "UNDECIDED",
+        "attributionRequired": false,
+        "redistributionAllowed": false,
+        "derivativesAllowed": false,
+        "notes": "Code and knowledge licenses must be selected before public reuse claims."
+      }
+    }
+  ]
+}
