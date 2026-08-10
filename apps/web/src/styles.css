@@ -115,7 +115,7 @@ footer { padding: 36px 0 60px; color: var(--muted); font-size: 0.9rem; }
 @media (max-width: 760px) {
   .site-header { align-items: flex-start; padding: 20px 0; flex-wrap: wrap; }
   .site-header > p { order: 3; flex-basis: 100%; margin: 0; }
-  .project-actions { margin-left: auto; }
+  .project-actions { flex-basis: 100%; flex-wrap: wrap; justify-content: flex-start; margin-left: 0; }
   .orientation { grid-template-columns: 1fr; gap: 40px; padding-top: 48px; }
   .surface { padding-left: 64px; }
   .surface-flow::before { left: 21px; }
