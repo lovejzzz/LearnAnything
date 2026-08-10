@@ -311,11 +311,11 @@
       "contentUse": "repository-authored",
       "license": {
         "status": "repository-owned",
-        "identifier": "UNDECIDED",
-        "attributionRequired": false,
-        "redistributionAllowed": false,
-        "derivativesAllowed": false,
-        "notes": "Code and knowledge licenses must be selected before public reuse claims."
+        "identifier": "CC-BY-4.0",
+        "attributionRequired": true,
+        "redistributionAllowed": true,
+        "derivativesAllowed": true,
+        "notes": "Repository-authored knowledge artifacts are licensed CC BY 4.0 per LICENSE-DATA.md; software remains MIT. Linked third-party resources keep their own rights."
       }
     }
   ]
